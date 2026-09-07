@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Повернення у форму</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  :root{
+    --bg:#F5F3EE;
+    --surface:#FFFFFF;
+    --surface-2:#EFEBE2;
+    --ink:#20241F;
+    --ink-dim:#5C6259;
+    --border:#DCD7C9;
+    --accent:#3D6B5C;
+    --accent-ink:#F2F7F4;
+    --caution:#9C6B1F;
+    --caution-bg:#F6ECD8;
+    --caution-border:#E2CFA3;
+    --done:#3D6B5C;
+    --next-bg:#EAF1EC;
+    --next-border:#C9DCCE;
+    --shadow: 0 1px 2px rgba(32,36,31,0.06), 0 6px 20px rgba(32,36,31,0.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181B17;
+      --surface:#20241F;
+      --surface-2:#262B23;
+      --ink:#EDEAE0;
+      --ink-dim:#A9AF9F;
+      --border:#343A31;
+      --accent:#7FB89E;
+      --accent-ink:#12201A;
+      --caution:#E0B15C;
+      --caution-bg:#2B2618;
+      --caution-border:#4A3F22;
+      --done:#7FB89E;
+      --next-bg:#1B2620;
+      --next-border:#2F4438;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181B17;
+    --surface:#20241F;
+    --surface-2:#262B23;
+    --ink:#EDEAE0;
+    --ink-dim:#A9AF9F;
+    --border:#343A31;
+    --accent:#7FB89E;
+    --accent-ink:#12201A;
+    --caution:#E0B15C;
+    --caution-bg:#2B2618;
+    --caution-border:#4A3F22;
+    --done:#7FB89E;
+    --next-bg:#1B2620;
+    --next-border:#2F4438;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Work Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:2.25rem 1.25rem 5rem;
+  }
+  h1,h2,h3{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+  }
+  header.top{
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    margin-bottom:1.4rem;
+  }
+  header.top h1{
+    font-size:2.1rem;
+    letter-spacing:-0.01em;
+  }
+  .subtitle{
+    color:var(--ink-dim);
+    font-size:1.02rem;
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-top:.3rem;
+  }
+  .chip{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.72rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:.32rem .6rem;
+    border-radius:999px;
+    background:var(--surface-2);
+    color:var(--ink-dim);
+    border:1px solid var(--border);
+  }
+  .chip.next{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border-color:var(--accent);
+  }
+
+  .callout{
+    background:var(--caution-bg);
+    border:1px solid var(--caution-border);
+    border-radius:12px;
+    padding:1rem 1.15rem;
+    margin:1.4rem 0;
+    font-size:.94rem;
+  }
+  .callout .label{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.72rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--caution);
+    font-weight:600;
+    display:block;
+    margin-bottom:.45rem;
+  }
+  .callout p{ margin:.35rem 0; color:var(--ink); }
+  .callout p.dim{ color:var(--ink-dim); font-size:.88rem; }
+
+  section.card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:1.3rem 1.3rem 1.5rem;
+    margin:1.5rem 0;
+  }
+  section.card h2{
+    font-size:1.3rem;
+    margin-bottom:.2rem;
+  }
+  section.card .card-sub{
+    color:var(--ink-dim);
+    font-size:.88rem;
+    margin-bottom:1rem;
+  }
+
+  section.next-session{
+    background:var(--next-bg);
+    border:1px solid var(--next-border);
+  }
+  section.next-session .card-sub{ color:var(--accent); font-weight:500; }
+
+  .warmup ol{
+    margin:0;
+    padding-left:1.15rem;
+    display:grid;
+    gap:.4rem;
+  }
+  .warmup li::marker{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    color:var(--ink-dim);
+    font-size:.85rem;
+  }
+
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    padding:.75rem 0;
+    z-index:5;
+    margin-bottom:.25rem;
+  }
+  .tab{
+    font-family:"Fraunces", Georgia, serif;
+    font-size:1rem;
+    font-weight:600;
+    padding:.55rem 1.1rem;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink-dim);
+    cursor:pointer;
+  }
+  .tab[aria-selected="true"]{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border-color:var(--accent);
+  }
+  .day{ display:none; }
+  .day.active{ display:block; }
+
+  table.plan{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.92rem;
+  }
+  table.plan th{
+    text-align:left;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.68rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    font-weight:500;
+    padding:.4rem .5rem .5rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  table.plan td{
+    padding:.65rem .5rem .65rem 0;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  table.plan tr:last-child td{ border-bottom:none; }
+  .ex-name{ font-weight:500; }
+  .ex-note{ color:var(--ink-dim); font-size:.84rem; margin-top:.15rem; }
+  .sets{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .badge{
+    display:inline-block;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.66rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:.18rem .48rem;
+    border-radius:6px;
+    white-space:nowrap;
+  }
+  .badge.cleared{ background:color-mix(in srgb, var(--accent) 16%, transparent); color:var(--accent); }
+  .badge.watch{ background:var(--caution-bg); color:var(--caution); border:1px solid var(--caution-border); }
+
+  .done-col{ width:2.2rem; text-align:center; }
+  input[type="checkbox"]{
+    width:1.05rem;
+    height:1.05rem;
+    accent-color:var(--done);
+  }
+  input.load-input{
+    width:5.4rem;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.85rem;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:.3rem .4rem;
+    color:var(--ink);
+  }
+  input.load-input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  input.load-input::placeholder{ color:var(--ink-dim); opacity:.7; }
+
+  .finisher{
+    margin-top:1rem;
+    padding-top:.9rem;
+    border-top:1px dashed var(--border);
+    font-size:.9rem;
+    color:var(--ink-dim);
+  }
+  .finisher strong{ color:var(--ink); font-weight:500; }
+
+  .rules ul{
+    margin:0;
+    padding-left:1.15rem;
+    display:grid;
+    gap:.55rem;
+    font-size:.93rem;
+  }
+  .rules li::marker{ color:var(--accent); }
+
+  .checkin{
+    background:var(--surface-2);
+    border-radius:10px;
+    padding:1rem 1.1rem;
+  }
+  .checkin ul{ margin:.5rem 0 0; padding-left:1.15rem; display:grid; gap:.4rem; font-size:.9rem; }
+
+  footer.note{
+    margin-top:2rem;
+    font-size:.85rem;
+    color:var(--ink-dim);
+    border-top:1px solid var(--border);
+    padding-top:1.1rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    section.card, .callout{ transition: box-shadow .15s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Повернення у форму</h1>
+    <div class="subtitle">Дводенна програма на все тіло &mdash; загальна форма та рекомпозиція</div>
+    <div class="chips">
+      <span class="chip">2×/тижд</span>
+      <span class="chip">Середній рівень</span>
+      <span class="chip">З урахуванням коліна</span>
+      <span class="chip next">Наступне: B2, 8 вер</span>
+    </div>
+    <a href="/" style="display:inline-flex;align-items:center;gap:.35rem;margin-top:.9rem;font-size:.85rem;color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;">📈 Дивитись прогрес &rarr;</a>
+  </header>
+
+  <div class="callout">
+    <span class="label">Поточні застереження щодо правого коліна</span>
+    <p>Не присідати, не стрибати, не повертатись на правій нозі, і не більше 10&nbsp;кг зовнішнього навантаження у вправах на праву ногу. Побудовано на тому, що зараз дозволено: ходьба по рівній біговій доріжці, велотренажер, підйоми на носки з вагою, розгинання ноги з легкою вагою, робота з резинкою/обтяжувачем на щиколотку.</p>
+    <p class="dim">Це не медична консультація &mdash; програма побудована на обмеженнях, які ти сам описав. Будь-яке просування за межі цього плану спершу узгодь з ортопедом або фізіотерапевтом.</p>
+  </div>
+
+  <section class="card next-session">
+    <h2>Наступне тренування &mdash; B2 (тяга)</h2>
+    <div class="card-sub">Понеділок, 8 вересня &mdash; побудовано на твоїй сесії B1 від 1 вересня + свіжих даних Garmin</div>
+    <table class="plan">
+      <thead>
+        <tr><th>Вправа</th><th>Підходи × Повтори</th><th>Ціль на сьогодні</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ex-name">Lat Pulldown</td><td class="sets">4 × 8&ndash;10</td><td>35&ndash;38 кг &mdash; торкнись 38 на останньому підході, якщо 35 йде легко (1 вер. фінішував на 35×10)</td></tr>
+        <tr><td class="ex-name">Band-Assisted Pull-up</td><td class="sets">2&ndash;3 × 6&ndash;10</td><td>та сама допомога резинки, що й 1 вер. (там 8/6/6 без ваги) &mdash; спробуй на 1 повтор більше на останньому підході</td></tr>
+        <tr><td class="ex-name">Seated Cable Row</td><td class="sets">3 × 10&ndash;14</td><td>30&ndash;32 кг &mdash; ціль дотягнути 3-й підхід до 12 повторів (1 вер.: 30×12, 30×12, 30×10)</td></tr>
+        <tr><td class="ex-name">Face Pull</td><td class="sets">3 × 12&ndash;15</td><td>15&ndash;18 кг, легко &mdash; нова вправа в цій ротації, почни консервативно</td></tr>
+        <tr><td class="ex-name">DB Hammer Curl</td><td class="sets">3 × 8&ndash;10</td><td>10 кг (1 вер.: 8×10, 8×8 &mdash; піднімаємо на крок)</td></tr>
+        <tr><td class="ex-name">Alternating DB Biceps Curl</td><td class="sets">2&ndash;3 × 10&ndash;12</td><td>10 кг, як і раніше</td></tr>
+        <tr><td class="ex-name">Glute Bridge / Hip Thrust</td><td class="sets">3 × 12&ndash;15</td><td>власна вага &mdash; коліно, без зовнішнього навантаження</td></tr>
+        <tr><td class="ex-name">Banded Hamstring Curl</td><td class="sets">3 × 15</td><td>та сама резинка</td></tr>
+        <tr><td class="ex-name">Dead Bug</td><td class="sets">2&ndash;3 × 10</td><td>на кожен бік, якщо є час</td></tr>
+      </tbody>
+    </table>
+    <p class="ex-note" style="margin-top:.9rem;">Фінішер: велотренажер, зона 1&ndash;2 (нижче ~112 уд/хв), 10 хв.</p>
+    <p class="ex-note">Чому саме так: HRV сьогодні 46&nbsp;мс, у балансі (тижневе середнє 47&nbsp;мс) &mdash; жодних сигналів недовідновлення, стрес сьогодні низький (сер. 32), останнє тренування (A2, 4 вер.) вже 4 дні тому. Це звичайний прогресивний тиждень, не розвантажувальний &mdash; тримайся верхньої межі діапазону повторів там, де можеш.</p>
+  </section>
+
+  <section class="card">
+    <h2>Знімок відновлення</h2>
+    <div class="card-sub">Витягнуто 7 вересня</div>
+    <table class="plan">
+      <tbody>
+        <tr><td class="ex-name">Останнє тренування</td><td colspan="3">4 вересня (A2, груди/трицепс) &mdash; 4 дні тому, повне відновлення</td></tr>
+        <tr><td class="ex-name">Стан HRV</td><td colspan="3">46 мс сьогодні, у балансі (тижневе середнє 47 мс, базова смуга 40&ndash;54 мс)</td></tr>
+        <tr><td class="ex-name">Сон (минула ніч)</td><td colspan="3">~7 год 22 хв (23:43&ndash;07:05)</td></tr>
+        <tr><td class="ex-name">Стрес сьогодні</td><td colspan="3">Низький&ndash;помірний, середнє 32</td></tr>
+        <tr><td class="ex-name">Training Readiness / VO2max</td><td colspan="3" class="ex-note">Ще не доступні в акаунті (відомий пробіл &mdash; див. нижче)</td></tr>
+      </tbody>
+    </table>
+    <p class="ex-note" style="margin-top:.9rem;">Вага тіла і повна історія відстежуються в <a href="/" style="color:var(--accent);">дашборді прогресу</a> &mdash; тепер з журналом усіх тренувань.</p>
+  </section>
+
+  <section class="card">
+    <h2>Базові показники до травми</h2>
+    <div class="card-sub">З твоїх тренувань січ&ndash;тра 2026 &mdash; майбутня ціль, а не інструкція на зараз</div>
+    <table class="plan">
+      <thead>
+        <tr><th>Вправа</th><th>Найкращий робочий підхід</th><th>&nbsp;</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ex-name">Leg Press</td><td class="sets">110 кг × 10</td><td class="ex-note">пік на початку лютого</td></tr>
+        <tr><td class="ex-name">Barbell Hack Squat</td><td class="sets">60 кг × 10</td><td class="ex-note">кінець березня</td></tr>
+        <tr><td class="ex-name">Goblet Squat</td><td class="sets">20 кг × 10</td><td class="ex-note">початок лютого</td></tr>
+        <tr><td class="ex-name">Weighted Leg Curl</td><td class="sets">40 кг × 8</td><td class="ex-note">стабільно лют&ndash;кві</td></tr>
+        <tr><td class="ex-name">Weighted Step-Up</td><td class="sets">28 кг × 10&ndash;12</td><td class="ex-note">початок лютого</td></tr>
+        <tr><td class="ex-name">Bench Press</td><td class="sets">55 кг × 5</td><td class="ex-note">пік, 8 квітня</td></tr>
+      </tbody>
+    </table>
+    <p class="ex-note" style="margin-top:.9rem;">Ти тренував ноги приблизно кожні 1&ndash;2 тижні за ротаційним спліт (груди / спина / ноги / руки) аж до операції. Твій жим лежачи зараз (~45&nbsp;кг × 7&ndash;9) близький до робочих підходів середньої повторності з того періоду, хоча все ще нижчий за справжній пік 55&nbsp;кг × 5 &mdash; верхня частина тіла непогано протрималась через паузу, є ще трохи простору для повернення. Жим ногами, присідовий патерн і важке згинання ноги наразі призупинені; ця таблиця &mdash; те, до чого варто повертатись, коли ортопед дозволить навантажене згинання коліна знову, а не ціль на зараз. Дивись <a href="/" style="color:var(--accent);">дашборд прогресу</a> для повних трендів.</p>
+  </section>
+
+  <section class="card warmup">
+    <h2>Розминка</h2>
+    <div class="card-sub">Перед будь-яким днем, ~8&ndash;10 хвилин, тримайся зони 1&ndash;2 (нижче ~112 уд/хв)</div>
+    <ol>
+      <li>Ходьба по рівній біговій доріжці (без нахилу) &mdash; 5 хв, легкий темп</li>
+      <li>Велотренажер &mdash; 5 хв, легке обертання</li>
+      <li>Обертання гомілкою + м'які кола коліном &mdash; по 10 у кожен бік</li>
+      <li>Утримання балансу на одній нозі, права нога, з опорою рукою за потреби &mdash; 3 × 20&ndash;30с</li>
+      <li>Бокова ходьба з резинкою &mdash; 2 × 12 кроків у кожен бік</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>Ротація</h2>
+    <div class="card-sub">Та сама ідея, що і твій старий спліт &ldquo;Груди A / Груди B&rdquo; &mdash; дві версії кожного дня, щоб нічого не повторювалось поспіль</div>
+    <p class="ex-note">Цикл у порядку: <strong style="color:var(--ink);">A1 &rarr; B1 &rarr; A2 &rarr; B2</strong>, потім повтор. При 2 сесіях/тиждень це повний цикл приблизно кожні 2 тижні. Вправи з фокусом на коліно (підйом на носки, розгинання ноги, сідничний міст, згинання гомілки з резинкою) навмисно лишаються однаковими у всіх варіантах &mdash; тут послідовність важливіша за різноманітність, поки ти відстежуєш відновлення. Останні сесії: A1 (29 сер) &rarr; B1 (1 вер) &rarr; A2 (4 вер) &rarr; наступна B2 (8 вер).</p>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-a1" role="tab" aria-selected="false">A1</button>
+    <button class="tab" id="tab-b1" role="tab" aria-selected="false">B1</button>
+    <button class="tab" id="tab-a2" role="tab" aria-selected="false">A2</button>
+    <button class="tab" id="tab-b2" role="tab" aria-selected="true">B2</button>
+  </div>
+
+  <section class="card day" id="day-a1">
+    <h2>A1 &mdash; Груди/Жим + безпечне навантаження ніг</h2>
+    <div class="card-sub">Твій звичний день грудей/жиму, плюс дві вправи з фокусом на коліно</div>
+    <table class="plan">
+      <thead>
+        <tr>
+          <th class="done-col">&nbsp;</th>
+          <th>Вправа</th>
+          <th>Підходи × Повтори</th>
+          <th>Використана вага</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody id="table-a1"></tbody>
+    </table>
+  </section>
+
+  <section class="card day" id="day-b1">
+    <h2>B1 &mdash; День тяги + задня поверхня тіла</h2>
+    <div class="card-sub">Твій звичний день спини/тяги, плюс робота на стегна й задню поверхню для коліна</div>
+    <table class="plan">
+      <thead>
+        <tr>
+          <th class="done-col">&nbsp;</th>
+          <th>Вправа</th>
+          <th>Підходи × Повтори</th>
+          <th>Використана вага</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody id="table-b1"></tbody>
+    </table>
+    <div class="finisher"><strong>Фінішер:</strong> велотренажер, легкий стабільний темп, зона 1&ndash;2 (нижче ~112 уд/хв) &mdash; 10 хв</div>
+  </section>
+
+  <section class="card day" id="day-a2">
+    <h2>A2 &mdash; Варіант грудей/жиму + безпечне навантаження ніг</h2>
+    <div class="card-sub">Ті самі патерни, що в A1, інші вправи &mdash; на чолі жим на похилій, канатна тяга на трицепс, зміна кута в кросовері</div>
+    <table class="plan">
+      <thead>
+        <tr>
+          <th class="done-col">&nbsp;</th>
+          <th>Вправа</th>
+          <th>Підходи × Повтори</th>
+          <th>Використана вага</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody id="table-a2"></tbody>
+    </table>
+  </section>
+
+  <section class="card day active" id="day-b2">
+    <h2>B2 &mdash; Варіант дня тяги + задня поверхня тіла</h2>
+    <div class="card-sub">Ті самі патерни, що в B1, інші вправи &mdash; на чолі тяга верхнього блоку, face pull, молоткові згинання першими</div>
+    <table class="plan">
+      <thead>
+        <tr>
+          <th class="done-col">&nbsp;</th>
+          <th>Вправа</th>
+          <th>Підходи × Повтори</th>
+          <th>Використана вага</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody id="table-b2"></tbody>
+    </table>
+    <div class="finisher"><strong>Фінішер:</strong> велотренажер, легкий стабільний темп, зона 1&ndash;2 (нижче ~112 уд/хв) &mdash; 10 хв</div>
+  </section>
+
+  <section class="card rules">
+    <h2>Правила прогресії</h2>
+    <div class="card-sub">Як рухати цифри від тижня до тижня</div>
+    <ul>
+      <li><strong>Верх тіла:</strong> коли обидва робочі підходи досягають верхньої межі діапазону повторів два тренування поспіль, додай 2.5&ndash;5% ваги наступного разу.</li>
+      <li><strong>Робота біля коліна</strong> (підйом на носки, розгинання ноги, вправи з резинкою): спочатку прогресуй повтори, потім вагу, і тримай вагу на рівні або нижче 10&nbsp;кг на правій нозі, поки не дозволять більше.</li>
+      <li><strong>Робота на баланс:</strong> прогресуй від опорної стійки на двох ногах &rarr; статичної стійки на одній нозі &rarr; стійки на одній нозі з легким збуренням (кидок мʼяча, м'яка поверхня) &mdash; лише коли епізоди нестабільності стихають.</li>
+      <li><strong>Будь-який новий біль або набряк:</strong> зупини цю вправу на тренуванні і звірся з фізіотерапевтом, перш ніж робити її знову.</li>
+      <li><strong>Перевірка відновлення:</strong> твоє середнє HRV за 7 днів зараз ~46&ndash;47 мс і збалансоване &mdash; якщо воно падає більш ніж на ~10 мс нижче цього, або якість сну падає кілька ночей поспіль, тримай тренування того тижня легкими замість прогресії ваги.</li>
+    </ul>
+  </section>
+
+  <section class="card checkin">
+    <h2>Питання для наступного візиту до фізіотерапевта/ортопеда</h2>
+    <ul>
+      <li>Чи можна навантажувати сідничний міст/hip thrust власною вагою понад поточний ліміт?</li>
+      <li>Коли можна повертати легке повертання чи ротаційний рух?</li>
+      <li>З якого моменту можна відновити навантажену роботу на одній нозі чи присідовий патерн?</li>
+    </ul>
+  </section>
+
+  <footer class="note">
+    v7 &mdash; додав картку &laquo;Наступне тренування&raquo; з конкретними цілями на B2 (8 вересня), побудовану на сесії B1 від 1 вересня і свіжих даних Garmin (HRV, сон, стрес). Знімок відновлення теж оновлено. Цей план і далі працює на ротації A1/B1/A2/B2, поверх твоєї реальної історії тренувань, базових показників до травми і даних відновлення Garmin. Тренувальне навантаження, VO2&nbsp;max і training readiness поки не доступні в акаунті (ймовірно, потрібно більше історії або не заповнене поле профілю) &mdash; коли з'являться, зможемо уточнити план ще більше. Скажи &laquo;створи тренування на сьогодні на основі моїх попередніх сесій&raquo; у будь-який момент &mdash; і я витягну твою останню історію Garmin та дані сну, щоб оновити цю картку для наступного дня.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var DAY_A1 = [
+    {name:"Bench Press", sets:"4 × 8&ndash;10", note:"ти вже дійшов до ~45 кг на малі повтори &mdash; робочі підходи близько 35&ndash;40 кг", status:"cleared"},
+    {name:"Incline DB Bench Press", sets:"3 × 10&ndash;12", note:"гантелі ~12&ndash;14 кг", status:"cleared"},
+    {name:"Cable Crossover (Flye)", sets:"3 × 10&ndash;14", note:"~30&ndash;35 кг", status:"cleared"},
+    {name:"Triceps Pressdown", sets:"3 × 10&ndash;14", note:"~20&ndash;25 кг", status:"cleared"},
+    {name:"Seated DB Overhead Triceps Extension", sets:"2&ndash;3 × 10&ndash;12", note:"~12&ndash;14 кг", status:"cleared"},
+    {name:"Weighted Seated Calf Raise", sets:"3 × 15&ndash;20", note:"~10&ndash;15 кг, обидві ноги", status:"cleared"},
+    {name:"Leg Extension, light load", sets:"3 × 15&ndash;20", note:"контрольований темп, фокус на квадрицепс", status:"cleared"},
+    {name:"Pallof Press", sets:"2&ndash;3 × 12", note:"на кожен бік, кор &mdash; якщо є час", status:"cleared"}
+  ];
+  var DAY_B1 = [
+    {name:"Band-Assisted Pull-up", sets:"3&ndash;4 × 6&ndash;10", note:"поступово зменшуй допомогу резинки", status:"cleared"},
+    {name:"Seated Cable Row", sets:"3&ndash;4 × 10&ndash;14", note:"~30&ndash;35 кг", status:"cleared"},
+    {name:"Lat Pulldown", sets:"3 × 10&ndash;14", note:"~30&ndash;35 кг", status:"cleared"},
+    {name:"Incline Reverse Flye", sets:"3 × 10&ndash;12", note:"~30&ndash;35 кг, задня дельта", status:"cleared"},
+    {name:"Alternating DB Biceps Curl", sets:"3 × 10&ndash;12", note:"~10 кг", status:"cleared"},
+    {name:"DB Hammer Curl", sets:"2&ndash;3 × 8&ndash;10", note:"~8&ndash;10 кг", status:"cleared"},
+    {name:"Glute Bridge / Hip Thrust", sets:"3 × 12&ndash;15", note:"власна вага або дуже легко &mdash; важче навантаження узгодь з фізіотерапевтом", status:"watch"},
+    {name:"Banded Hamstring Curl", sets:"3 × 15", note:"", status:"cleared"},
+    {name:"Dead Bug", sets:"2&ndash;3 × 10", note:"на кожен бік, кор &mdash; якщо є час", status:"cleared"}
+  ];
+  var DAY_A2 = [
+    {name:"Incline DB Bench Press", sets:"4 × 8&ndash;10", note:"цього разу перша &mdash; гантелі ~14&ndash;16 кг", status:"cleared"},
+    {name:"Flat DB Bench Press", sets:"3 × 10&ndash;12", note:"заміна штанги &mdash; гантелі ~16&ndash;18 кг", status:"cleared"},
+    {name:"Rope Pressdown", sets:"3 × 10&ndash;14", note:"заміна прямого грифа &mdash; ~20&ndash;25 кг", status:"cleared"},
+    {name:"Low-to-High Cable Crossover", sets:"3 × 10&ndash;14", note:"зміна кута розведення &mdash; ~25&ndash;30 кг", status:"cleared"},
+    {name:"Seated DB Overhead Triceps Extension", sets:"2&ndash;3 × 10&ndash;12", note:"~12&ndash;14 кг", status:"cleared"},
+    {name:"Weighted Seated Calf Raise", sets:"3 × 15&ndash;20", note:"~10&ndash;15 кг, обидві ноги", status:"cleared"},
+    {name:"Leg Extension, light load", sets:"3 × 15&ndash;20", note:"контрольований темп, фокус на квадрицепс", status:"cleared"},
+    {name:"Pallof Press", sets:"2&ndash;3 × 12", note:"на кожен бік, кор &mdash; якщо є час", status:"cleared"}
+  ];
+  var DAY_B2 = [
+    {name:"Lat Pulldown", sets:"4 × 8&ndash;10", note:"35&ndash;38 кг &mdash; торкнись 38 на останньому підході, якщо 35 йде легко", status:"cleared"},
+    {name:"Band-Assisted Pull-up", sets:"2&ndash;3 × 6&ndash;10", note:"цього разу другорядна", status:"cleared"},
+    {name:"Seated Cable Row", sets:"3 × 10&ndash;14", note:"30&ndash;32 кг &mdash; ціль 12 повторів на 3-му підході", status:"cleared"},
+    {name:"Face Pull", sets:"3 × 12&ndash;15", note:"заміна зворотних розведень &mdash; задня дельта/ротаторна манжета, ~15&ndash;18 кг, легка вага на блоці", status:"cleared"},
+    {name:"DB Hammer Curl", sets:"3 × 8&ndash;10", note:"цього разу перше &mdash; 10 кг", status:"cleared"},
+    {name:"Alternating DB Biceps Curl", sets:"2&ndash;3 × 10&ndash;12", note:"~10 кг", status:"cleared"},
+    {name:"Glute Bridge / Hip Thrust", sets:"3 × 12&ndash;15", note:"власна вага або дуже легко &mdash; важче навантаження узгодь з фізіотерапевтом", status:"watch"},
+    {name:"Banded Hamstring Curl", sets:"3 × 15", note:"", status:"cleared"},
+    {name:"Dead Bug", sets:"2&ndash;3 × 10", note:"на кожен бік, кор &mdash; якщо є час", status:"cleared"}
+  ];
+
+  function storageKey(day, idx){ return "rtf_" + day + "_" + idx; }
+
+  function loadState(key){
+    try{
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function saveState(key, val){
+    try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* per-viewer convenience only */ }
+  }
+
+  function renderTable(tbodyId, dayKey, rows){
+    var tbody = document.getElementById(tbodyId);
+    var html = "";
+    rows.forEach(function(row, idx){
+      var key = storageKey(dayKey, idx);
+      var state = loadState(key) || {done:false, load:""};
+      var badgeClass = row.status === "cleared" ? "cleared" : "watch";
+      var badgeText = row.status === "cleared" ? "Дозволено" : "Обережно";
+      html += '<tr>' +
+        '<td class="done-col"><input type="checkbox" data-key="' + key + '" class="done-box" ' + (state.done ? "checked" : "") + '></td>' +
+        '<td><div class="ex-name">' + row.name + '</div>' + (row.note ? '<div class="ex-note">' + row.note + '</div>' : '') + '</td>' +
+        '<td class="sets">' + row.sets + '</td>' +
+        '<td><input type="text" class="load-input" data-key="' + key + '" placeholder="напр. 8кг" value="' + (state.load || "").replace(/"/g,"&quot;") + '"></td>' +
+        '<td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html;
+
+    tbody.querySelectorAll(".done-box").forEach(function(box){
+      box.addEventListener("change", function(){
+        var key = box.getAttribute("data-key");
+        var s = loadState(key) || {done:false, load:""};
+        s.done = box.checked;
+        saveState(key, s);
+      });
+    });
+    tbody.querySelectorAll(".load-input").forEach(function(inp){
+      inp.addEventListener("change", function(){
+        var key = inp.getAttribute("data-key");
+        var s = loadState(key) || {done:false, load:""};
+        s.load = inp.value;
+        saveState(key, s);
+      });
+    });
+  }
+
+  var VARIANTS = ["a1", "b1", "a2", "b2"];
+  renderTable("table-a1", "a1", DAY_A1);
+  renderTable("table-b1", "b1", DAY_B1);
+  renderTable("table-a2", "a2", DAY_A2);
+  renderTable("table-b2", "b2", DAY_B2);
+
+  var tabs = {}, days = {};
+  VARIANTS.forEach(function(v){
+    tabs[v] = document.getElementById("tab-" + v);
+    days[v] = document.getElementById("day-" + v);
+  });
+
+  function showDay(which){
+    VARIANTS.forEach(function(v){
+      var active = v === which;
+      days[v].classList.toggle("active", active);
+      tabs[v].setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+  VARIANTS.forEach(function(v){
+    tabs[v].addEventListener("click", function(){ showDay(v); });
+  });
+})();
+</script>
+
+</body>
+</html>
