@@ -1,0 +1,4 @@
+garmin_session_secret.b64
+.garminconnect/
+__pycache__/
+*.pyc

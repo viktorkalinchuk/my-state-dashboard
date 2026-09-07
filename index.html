@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мій стан</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F3EE; --surface:#FFFFFF; --surface-2:#EFEBE2;
+    --ink:#20241F; --ink-dim:#5C6259; --ink-mute:#8C9186;
+    --border:#DCD7C9; --accent:#3D6B5C; --accent-ink:#F2F7F4;
+    --caution:#9C6B1F; --caution-bg:#F6ECD8; --caution-border:#E2CFA3;
+    --gap-band:#EDE8DD; --grid:#E4DFD3; --axis:#C7C2B4;
+    --shadow: 0 1px 2px rgba(32,36,31,0.06), 0 6px 20px rgba(32,36,31,0.05);
+    --c-bench:#2E6B4C; --c-lat:#2a78d6; --c-legpress:#1baf7a; --c-hack:#4a3aa7;
+    --c-strength:#2a78d6; --c-walkrun:#eb6834; --c-bike:#1baf7a; --c-other:#eda100;
+    --tooltip-bg:#20241F; --tooltip-ink:#F2F7F4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181B17; --surface:#20241F; --surface-2:#262B23;
+      --ink:#EDEAE0; --ink-dim:#A9AF9F; --ink-mute:#7A8072;
+      --border:#343A31; --accent:#7FB89E; --accent-ink:#12201A;
+      --caution:#E0B15C; --caution-bg:#2B2618; --caution-border:#4A3F22;
+      --gap-band:#22271F; --grid:#2B3128; --axis:#3C4337;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+      --c-bench:#7FB89E; --c-lat:#3987e5; --c-legpress:#199e70; --c-hack:#9085e9;
+      --c-strength:#3987e5; --c-walkrun:#d95926; --c-bike:#199e70; --c-other:#c98500;
+      --tooltip-bg:#EDEAE0; --tooltip-ink:#181B17;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181B17; --surface:#20241F; --surface-2:#262B23;
+    --ink:#EDEAE0; --ink-dim:#A9AF9F; --ink-mute:#7A8072;
+    --border:#343A31; --accent:#7FB89E; --accent-ink:#12201A;
+    --caution:#E0B15C; --caution-bg:#2B2618; --caution-border:#4A3F22;
+    --gap-band:#22271F; --grid:#2B3128; --axis:#3C4337;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    --c-bench:#7FB89E; --c-lat:#3987e5; --c-legpress:#199e70; --c-hack:#9085e9;
+    --c-strength:#3987e5; --c-walkrun:#d95926; --c-bike:#199e70; --c-other:#c98500;
+    --tooltip-bg:#EDEAE0; --tooltip-ink:#181B17;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Work Sans",system-ui,sans-serif;line-height:1.5;}
+  .wrap{max-width:1080px;margin:0 auto;padding:2.75rem 1.5rem 4rem;}
+  h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-0.01em;text-wrap:balance;margin:0;}
+  header.top{margin-bottom:1.9rem;}
+  header.top h1{font-size:clamp(2rem,4.2vw,2.7rem);color:var(--ink);}
+  header.top .subtitle{color:var(--ink-dim);font-size:1.05rem;margin-top:.4rem;max-width:56ch;}
+  .backlink{display:inline-flex;align-items:center;gap:.35rem;margin-top:.9rem;font-size:.85rem;color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;}
+  .backlink:hover{border-bottom-color:var(--accent);}
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem;}
+  .chip{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.02em;padding:.32rem .65rem;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--ink-dim);}
+
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.6rem;}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);}
+  .stat .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mute);}
+  .stat .value{font-family:"Fraunces",serif;font-size:1.7rem;font-weight:600;margin-top:.3rem;color:var(--ink);}
+  .stat .value .unit{font-size:.95rem;font-weight:500;color:var(--ink-dim);}
+  .stat .delta{font-family:"IBM Plex Mono",monospace;font-size:.78rem;margin-top:.35rem;color:var(--ink-dim);}
+  .stat .delta.down{color:var(--caution);}
+  .stat .delta.up{color:var(--c-bench);}
+
+  section.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem 1.6rem 1.6rem;box-shadow:var(--shadow);margin-bottom:1.1rem;}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+  section.card h2{font-size:1.15rem;}
+  .card-sub{color:var(--ink-dim);font-size:.85rem;margin-top:.25rem;margin-bottom:1.1rem;}
+
+  .legend{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.8rem;color:var(--ink-dim);margin-top:.7rem;}
+  .legend .item{display:flex;align-items:center;gap:.4rem;}
+  .legend .swatch{width:11px;height:11px;border-radius:3px;flex:none;}
+  .legend .swatch.line{border-radius:99px;height:3px;width:16px;}
+
+  .chart-wrap{position:relative;overflow-x:auto;}
+  svg.chart{width:100%;height:auto;display:block;font-family:"IBM Plex Mono",monospace;}
+  .gridline{stroke:var(--grid);stroke-width:1;}
+  .axis-line{stroke:var(--axis);stroke-width:1;}
+  .axis-label{fill:var(--ink-mute);font-size:10.5px;}
+  .gap-band{fill:var(--gap-band);}
+  .gap-label{fill:var(--ink-mute);font-size:10px;font-family:"Work Sans",sans-serif;font-style:italic;}
+  .data-line{fill:none;stroke-width:2.5px;}
+  .data-dot{stroke:var(--surface);stroke-width:2px;}
+  .data-dot.hit{fill:transparent;stroke:none;cursor:pointer;}
+  .direct-label{font-size:10.5px;font-family:"IBM Plex Mono",monospace;font-weight:500;}
+  .bar-seg{cursor:pointer;}
+  .bar-seg-gap{fill:var(--surface);}
+
+  .tooltip{position:fixed;pointer-events:none;background:var(--tooltip-bg);color:var(--tooltip-ink);font-family:"IBM Plex Mono",monospace;font-size:.74rem;padding:.5rem .65rem;border-radius:8px;transform:translate(-50%,-118%);white-space:nowrap;opacity:0;transition:opacity .08s;box-shadow:var(--shadow);z-index:5;line-height:1.45;}
+  .tooltip.show{opacity:1;}
+  .tooltip .t-title{font-weight:500;}
+  .tooltip .t-sub{color:var(--ink-mute);opacity:.85;}
+
+  .callout{display:flex;gap:.85rem;background:var(--caution-bg);border:1px solid var(--caution-border);border-radius:12px;padding:1rem 1.1rem;}
+  .callout .icon{font-size:1.15rem;flex:none;line-height:1.4;}
+  .callout .body{font-size:.88rem;color:var(--ink);}
+  .callout .body b{color:var(--caution);}
+
+  .empty-state{border:1px dashed var(--border);border-radius:12px;padding:1.3rem 1.2rem;text-align:center;color:var(--ink-dim);font-size:.88rem;}
+  .empty-state .icon{font-size:1.4rem;margin-bottom:.4rem;}
+
+  details.tables{margin-top:.3rem;}
+  details.tables summary{cursor:pointer;font-size:.85rem;color:var(--accent);padding:.4rem 0;list-style:none;}
+  details.tables summary::-webkit-details-marker{display:none;}
+  details.tables summary::before{content:"▸ ";}
+  details.tables[open] summary::before{content:"▾ ";}
+  table.data{width:100%;border-collapse:collapse;font-size:.82rem;margin:.6rem 0 1.1rem;}
+  table.data caption{text-align:left;font-weight:500;color:var(--ink-dim);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;}
+  table.data th,table.data td{text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border);}
+  table.data td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+  table.data th{color:var(--ink-mute);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;}
+
+  footer.note{color:var(--ink-mute);font-size:.8rem;margin-top:1.6rem;line-height:1.6;}
+  .load-state{color:var(--ink-dim);font-size:.9rem;padding:2rem 0;text-align:center;}
+
+  @media (max-width:760px){
+    .stat-row{grid-template-columns:1fr 1fr;}
+    .row-2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Мій стан</h1>
+    <div class="subtitle">Тренди сили та тренувань з березня 2025 &mdash; побудовано з повної історії сесій Garmin, щоб бачити паузу і підйом назад в одному місці. Дані по сну, кроках і тренуваннях оновлюються щоночі автоматично.</div>
+    <a class="backlink" href="https://claude.ai/code/artifact/c0e00098-96ee-494a-a5bf-caf0f8e697c3">&larr; Повернення у форму (план на цей тиждень)</a>
+    <div class="chips">
+      <span class="chip" id="chip-postop">день після операції: &mdash;</span>
+      <span class="chip" id="chip-updated">оновлено: &mdash;</span>
+      <span class="chip">4 вправи відстежуються</span>
+    </div>
+  </header>
+
+  <div class="stat-row" id="stat-row"></div>
+
+  <section class="card">
+    <h2>Bench Press &mdash; найкращий робочий підхід</h2>
+    <div class="card-sub" id="bench-sub">Кожне силове тренування, де є жим лежачи штангою. Затінена смуга &mdash; пауза через операцію. Варіанти з гантелями (Incline/Flat DB Bench Press) навмисно не входять у цей графік.</div>
+    <div class="chart-wrap"><svg class="chart" id="chart-bench" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="legend"><div class="item"><span class="swatch line" style="background:var(--c-bench)"></span>Bench Press, найкращий підхід (кг)</div></div>
+  </section>
+
+  <div class="row-2">
+    <section class="card">
+      <h2>Lat Pulldown &mdash; найкращий робочий підхід</h2>
+      <div class="card-sub" id="lat-sub">Тренування тяги.</div>
+      <div class="chart-wrap"><svg class="chart" id="chart-lat" viewBox="0 0 560 290" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="legend"><div class="item"><span class="swatch line" style="background:var(--c-lat)"></span>Lat Pulldown, найкращий підхід (кг)</div></div>
+    </section>
+    <section class="card">
+      <h2>Leg Press та Hack Squat</h2>
+      <div class="card-sub">Лише до травми (лип 2025&ndash;кві 2026) &mdash; обидві вправи досі обмежені після операції.</div>
+      <div class="chart-wrap"><svg class="chart" id="chart-legs" viewBox="0 0 560 290" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="legend">
+        <div class="item"><span class="swatch line" style="background:var(--c-legpress)"></span>Leg Press (кг)</div>
+        <div class="item"><span class="swatch line" style="background:var(--c-hack)"></span>Hack Squat (кг)</div>
+      </div>
+      <p class="ex-note" style="margin-top:.7rem;color:var(--ink-mute);font-size:.78rem;">Hack Squat за 2025&nbsp;рік не показано &mdash; автотегування Garmin того періоду не розрізняло Hack Squat від звичайного присіду достатньо надійно, тож ці підходи пропущено, а не вгадано.</p>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Частота тренувань за місяцями</h2>
+    <div class="card-sub" id="freq-sub">Усі зафіксовані активності.</div>
+    <div class="chart-wrap"><svg class="chart" id="chart-freq" viewBox="0 0 900 320" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="legend">
+      <div class="item"><span class="swatch" style="background:var(--c-strength)"></span>Силові</div>
+      <div class="item"><span class="swatch" style="background:var(--c-walkrun)"></span>Ходьба/біг</div>
+      <div class="item"><span class="swatch" style="background:var(--c-bike)"></span>Велосипед</div>
+      <div class="item"><span class="swatch" style="background:var(--c-other)"></span>Інше</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Вага тіла та склад тіла</h2>
+    <div class="card-sub">Поодинокі ручні записи в Garmin (2025) проти регулярних показників розумних терезів Xiaomi (через Apple Health). Оновлюється автоматично через Shortcuts-автоматизацію на iPhone &mdash; GitHub Actions сам не може читати Apple Health (Apple не дає для цього хмарного API), тож дані надсилає сам телефон.</div>
+    <div class="chart-wrap"><svg class="chart" id="chart-weight" viewBox="0 0 900 280" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="legend"><div class="item"><span class="swatch line" style="background:var(--c-bench)"></span>Вага тіла (кг)</div></div>
+    <div class="stat-row" id="stat-row-body" style="grid-template-columns:repeat(3,1fr);margin-top:1.1rem;margin-bottom:0;"></div>
+  </section>
+
+  <div class="row-2">
+    <section class="card">
+      <h2>Кроки</h2>
+      <div class="card-sub" id="steps-sub">Середньодобові кроки за місяць, напряму з Garmin.</div>
+      <div class="chart-wrap"><svg class="chart" id="chart-steps" viewBox="0 0 560 260" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="legend"><div class="item"><span class="swatch line" style="background:var(--c-walkrun)"></span>Кроки, середнє за день</div></div>
+    </section>
+    <section class="card">
+      <h2>Сон</h2>
+      <div class="card-sub" id="sleep-sub">Середня тривалість сну за ніч, за місяць, напряму з Garmin.</div>
+      <div class="chart-wrap"><svg class="chart" id="chart-sleep" viewBox="0 0 560 260" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="legend"><div class="item"><span class="swatch line" style="background:var(--c-bike)"></span>Сон, середнє за ніч</div></div>
+    </section>
+  </div>
+  <p class="ex-note" style="margin-top:-.6rem;color:var(--ink-mute);font-size:.78rem;">Обидва графіки &mdash; напряму з Garmin (годинник носиться цілодобово), а не з Apple Health: Apple Health дублює кроки, коли пише і телефон, і годинник, а сон там відсутній із листопада 2024 по серпень 2026. Обліковий запис Garmin починається 25 березня 2025.</p>
+
+  <section class="card">
+    <h2>Дані, на яких побудовані ці графіки</h2>
+    <details class="tables">
+      <summary>Показати як таблиці</summary>
+      <div id="tables-target"></div>
+    </details>
+  </section>
+
+  <footer class="note">
+    Побудовано на основі історії підходів і активностей із Garmin. Найкращий робочий підхід = найважча вага, зафіксована на вказану кількість повторів для цієї вправи в цю дату; розриви на лінії означають, що не було відповідного тренування, а не день відпочинку. Дані по сну, кроках, силових вправах і частоті тренувань оновлюються щоночі через GitHub Actions.
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+(function(){
+  "use strict";
+  var css = getComputedStyle(document.documentElement);
+  function cv(name){ return css.getPropertyValue(name).trim(); }
+  function fmtNum(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+  var MONTH_NAMES = ["Січ","Лют","Бер","Кві","Тра","Чер","Лип","Сер","Вер","Жов","Лис","Гру"];
+  var MONTH_NAMES_GEN = ["січень","лютий","березень","квітень","травень","червень","липень","серпень","вересень","жовтень","листопад","грудень"];
+
+  function parseDate(s){ return new Date(s + "T00:00:00Z").getTime(); }
+  function daysInMonth(monthStr){
+    var y = +monthStr.slice(0,4), m = +monthStr.slice(5,7);
+    return new Date(Date.UTC(y, m, 0)).getUTCDate();
+  }
+  function monthLabel(monthStr, showYear){
+    var m = +monthStr.slice(5,7) - 1;
+    return MONTH_NAMES[m] + (showYear ? " '" + monthStr.slice(2,4) : "");
+  }
+
+  // split a chronologically-sorted array of {d,...} points into segments
+  // wherever the gap between consecutive points exceeds gapDays
+  function splitSegments(points, gapDays){
+    if (!points.length) return [];
+    var sorted = points.slice().sort(function(a,b){ return parseDate(a.d) - parseDate(b.d); });
+    var segments = [[sorted[0]]];
+    for (var i=1;i<sorted.length;i++){
+      var prev = sorted[i-1], cur = sorted[i];
+      var gap = (parseDate(cur.d) - parseDate(prev.d)) / 86400000;
+      if (gap > gapDays) segments.push([]);
+      segments[segments.length-1].push(cur);
+    }
+    return segments;
+  }
+
+  // mark the max-value point as peak and the last chronological point as latest
+  function markPeakLatest(points, subFn){
+    if (!points.length) return points;
+    var maxV = Math.max.apply(null, points.map(function(p){return p.v;}));
+    var peakDone = false;
+    points.forEach(function(p, i){
+      if (p.v === maxV && !peakDone){ p.peak = true; peakDone = true; }
+      if (i === points.length - 1) p.latest = true;
+      if (subFn) p.sub = subFn(p);
+    });
+    return points;
+  }
+
+  function monthlyToPoints(monthlyArr, unit, decimals){
+    var sorted = monthlyArr.slice().sort(function(a,b){ return a.month < b.month ? -1 : 1; });
+    var pts = sorted.map(function(m){
+      var avg = m.sum / m.count;
+      var full = daysInMonth(m.month);
+      var partial = m.count < full - 2; // a few missing days is normal (sync lag)
+      var showYear = m.month.slice(5,7) === "01";
+      return {
+        d: m.month + "-01",
+        l: monthLabel(m.month, showYear),
+        v: Math.round(avg*100)/100,
+        month: m.month,
+        count: m.count,
+        full: full,
+        partial: partial
+      };
+    });
+    markPeakLatest(pts, function(p){
+      var vStr = decimals ? p.v.toFixed(decimals) : fmtNum(p.v);
+      var base = vStr + unit;
+      if (p.partial) base += " — лише " + p.count + (p.count===1?" день":" днів") + " місяця";
+      else base += " — середнє за " + MONTH_NAMES_GEN[+p.month.slice(5,7)-1] + " " + p.month.slice(0,4);
+      return base;
+    });
+    return pts;
+  }
+
+  // ---------- svg helpers ----------
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  var tooltip = document.getElementById("tooltip");
+  function showTip(evt, titleHtml, subHtml){
+    tooltip.innerHTML = '<div class="t-title">'+titleHtml+'</div>' + (subHtml ? '<div class="t-sub">'+subHtml+'</div>' : '');
+    tooltip.style.left = evt.clientX + "px";
+    tooltip.style.top = evt.clientY + "px";
+    tooltip.classList.add("show");
+  }
+  function moveTip(evt){
+    tooltip.style.left = evt.clientX + "px";
+    tooltip.style.top = evt.clientY + "px";
+  }
+  function hideTip(){ tooltip.classList.remove("show"); }
+
+  // ---------- time-series line chart ----------
+  function renderTimeChart(svgId, opts){
+    var svg = document.getElementById(svgId);
+    var vb = svg.getAttribute("viewBox").split(" ").map(Number);
+    var W = vb[2], H = vb[3];
+    var margin = {top: 26, right: 22, bottom: 34, left: 40};
+    var innerW = W - margin.left - margin.right;
+    var innerH = H - margin.top - margin.bottom;
+
+    var xDomain = [parseDate(opts.xMin), parseDate(opts.xMax)];
+    var yDomain = opts.yDomain;
+    function xs(d){ return margin.left + (parseDate(d) - xDomain[0]) / (xDomain[1]-xDomain[0]) * innerW; }
+    function ys(v){ return margin.top + innerH - (v - yDomain[0]) / (yDomain[1]-yDomain[0]) * innerH; }
+
+    var yUnit = (opts.yUnit !== undefined) ? opts.yUnit : " кг";
+    var yFormat = opts.yFormat || function(t){ return t + yUnit; };
+    var pointFormat = opts.pointFormat || function(p){ return p.v + yUnit + (p.peak?" · пік":""); };
+
+    var yTicks = opts.yTicks;
+    yTicks.forEach(function(t){
+      svg.appendChild(el("line", {x1:margin.left, x2:margin.left+innerW, y1:ys(t), y2:ys(t), class:"gridline"}));
+      var lbl = el("text", {x:margin.left-8, y:ys(t)+3, class:"axis-label", "text-anchor":"end"});
+      lbl.textContent = yFormat(t);
+      svg.appendChild(lbl);
+    });
+    svg.appendChild(el("line", {x1:margin.left, x2:margin.left+innerW, y1:margin.top+innerH, y2:margin.top+innerH, class:"axis-line"}));
+
+    if (opts.gap){
+      var gx1 = xs(opts.gap.start), gx2 = xs(opts.gap.end);
+      svg.appendChild(el("rect", {x:gx1, y:margin.top, width:Math.max(gx2-gx1,0), height:innerH, class:"gap-band"}));
+      var gl = el("text", {x:(gx1+gx2)/2, y:margin.top+innerH/2, class:"gap-label", "text-anchor":"middle"});
+      gl.textContent = opts.gapLabel || "пауза на відновлення";
+      svg.appendChild(gl);
+    }
+
+    opts.xTicks.forEach(function(t){
+      var x = xs(t.d);
+      var lbl = el("text", {x:x, y:margin.top+innerH+18, class:"axis-label", "text-anchor":"middle"});
+      lbl.textContent = t.l;
+      svg.appendChild(lbl);
+    });
+
+    opts.series.forEach(function(series){
+      series.segments.forEach(function(pts){
+        if (pts.length > 1){
+          var d = pts.map(function(p,i){ return (i===0?"M":"L") + xs(p.d) + " " + ys(p.v); }).join(" ");
+          svg.appendChild(el("path", {d:d, class:"data-line", stroke:series.color}));
+        }
+        pts.forEach(function(p){
+          var r = (p.peak || p.latest) ? 4.5 : 3.5;
+          if (p.hollow){
+            svg.appendChild(el("circle", {cx:xs(p.d), cy:ys(p.v), r:r, fill:cv("--surface"), stroke:series.color, "stroke-width":2, class:"data-dot"}));
+          } else {
+            svg.appendChild(el("circle", {cx:xs(p.d), cy:ys(p.v), r:r, fill:series.color, class:"data-dot"}));
+          }
+          if (p.peak || p.latest){
+            var t = el("text", {x:xs(p.d), y:ys(p.v)-11, class:"direct-label", "text-anchor":"middle", fill:series.color});
+            t.textContent = pointFormat(p);
+            svg.appendChild(t);
+          }
+          var hit = el("circle", {cx:xs(p.d), cy:ys(p.v), r:11, class:"data-dot hit"});
+          hit.addEventListener("mouseenter", function(evt){
+            showTip(evt, series.name + " — " + (p.l || p.d), p.sub || (p.v + " кг × " + p.reps));
+          });
+          hit.addEventListener("mousemove", moveTip);
+          hit.addEventListener("mouseleave", hideTip);
+          svg.appendChild(hit);
+        });
+      });
+    });
+  }
+
+  function monthTicks(startStr, endStr){
+    var start = new Date(startStr + "T00:00:00Z");
+    var end = new Date(endStr + "T00:00:00Z");
+    var out = [];
+    var cur = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 1));
+    var first = true;
+    while (cur <= end){
+      if (cur >= start){
+        var iso = cur.toISOString().slice(0,10);
+        var showYear = first || cur.getUTCMonth() === 0;
+        out.push({d: iso, l: MONTH_NAMES[cur.getUTCMonth()] + (showYear ? " '" + String(cur.getUTCFullYear()).slice(2) : "")});
+        first = false;
+      }
+      cur = new Date(Date.UTC(cur.getUTCFullYear(), cur.getUTCMonth()+1, 1));
+    }
+    return out;
+  }
+  function quarterTicks(startStr, endStr){
+    var all = monthTicks(startStr, endStr);
+    return all.filter(function(t){ return [2,5,8,11,0].indexOf(new Date(t.d+"T00:00:00Z").getUTCMonth()) !== -1; });
+  }
+
+  function fmtDateUk(iso){
+    var d = new Date(iso + "T00:00:00Z");
+    return d.getUTCDate() + " " + MONTH_NAMES[d.getUTCMonth()].toLowerCase();
+  }
+
+  fetch("data/dashboard-data.json", {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(DATA){
+    render(DATA);
+  }).catch(function(err){
+    document.querySelector(".wrap").insertAdjacentHTML("afterbegin", '<div class="load-state">Не вдалось завантажити data/dashboard-data.json: ' + err + '</div>');
+  });
+
+  function render(DATA){
+    var bench = markPeakLatest(DATA.bench.slice().sort(function(a,b){return parseDate(a.d)-parseDate(b.d);}), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
+    var lat = markPeakLatest(DATA.lat.slice().sort(function(a,b){return parseDate(a.d)-parseDate(b.d);}), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
+    var legpress = markPeakLatest(DATA.legpress.slice(), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
+    var hacksquat = markPeakLatest(DATA.hacksquat.slice(), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
+
+    var gapDays = DATA.meta.segment_gap_days || 20;
+    var benchSegments = splitSegments(bench, gapDays);
+    var latSegments = splitSegments(lat, gapDays);
+
+    var weight = DATA.weight.map(function(p){ return Object.assign({}, p, {hollow: p.source === "manual", l: fmtDateUk(p.d)}); });
+    var weightSegments = splitSegments(weight, 40);
+    markPeakLatest(weight.slice().sort(function(a,b){return parseDate(a.d)-parseDate(b.d);}), function(p){ return p.v + " кг — " + (p.source==="manual"?"Garmin, вручну":"Xiaomi, терези"); });
+
+    var stepsPts = monthlyToPoints(DATA.steps_monthly, "", 0);
+    stepsPts.forEach(function(p){ p.sub = p.sub; });
+    var sleepPts = monthlyToPoints(DATA.sleep_monthly, " год", 2);
+
+    // ---------- header chips ----------
+    var SURGERY = new Date(DATA.meta.surgery_date + "T00:00:00Z");
+    var latestBench = bench[bench.length-1];
+    var refDate = new Date((DATA.meta.last_processed_date || DATA.meta.updated_at.slice(0,10)) + "T00:00:00Z");
+    var days = Math.round((refDate - SURGERY) / 86400000);
+    document.getElementById("chip-postop").textContent = "день після операції: " + days;
+    document.getElementById("chip-updated").textContent = "оновлено: " + fmtDateUk(DATA.meta.last_processed_date || DATA.meta.updated_at.slice(0,10));
+
+    // ---------- stat row ----------
+    var peakBench = bench.reduce(function(a,p){ return (a===null || p.v>a.v) ? p : a; }, null);
+    var latestSleep = sleepPts[sleepPts.length-1];
+    var statRow = document.getElementById("stat-row");
+    statRow.innerHTML =
+      '<div class="stat"><div class="label">Bench Press, останнє</div><div class="value">'+latestBench.v+'<span class="unit"> кг × '+latestBench.reps+'</span></div><div class="delta down">пік був '+peakBench.v+' кг × '+peakBench.reps+', '+fmtDateUk(peakBench.d)+'</div></div>' +
+      '<div class="stat"><div class="label">Тижнів після операції</div><div class="value">'+Math.floor(days/7)+'<span class="unit"> тижн.</span></div><div class="delta">тренування відновились приблизно на 10-му тижні</div></div>' +
+      '<div class="stat"><div class="label">Кроки, останній місяць</div><div class="value">'+fmtNum(stepsPts[stepsPts.length-1].v)+'</div><div class="delta">середньодобово, '+stepsPts[stepsPts.length-1].l+'</div></div>' +
+      '<div class="stat"><div class="label">Сон, останній місяць</div><div class="value">'+latestSleep.v.toFixed(2)+'<span class="unit"> год</span></div><div class="delta">середньодобово, '+latestSleep.l+'</div></div>';
+
+    // ---------- bench sub ----------
+    var benchFirst = bench[0], benchLast = bench[bench.length-1];
+    document.getElementById("bench-sub").innerHTML = "Кожне силове тренування, де є жим лежачи штангою, " + benchFirst.d.slice(0,7).replace("-", "-") + "&ndash;" + benchLast.d.slice(0,7) + ". Затінена смуга &mdash; пауза через операцію. Варіанти з гантелями (Incline/Flat DB Bench Press) навмисно не входять у цей графік.";
+    document.getElementById("lat-sub").textContent = "Тренування тяги, " + lat[0].d.slice(0,7) + "–" + lat[lat.length-1].d.slice(0,7) + ".";
+    document.getElementById("steps-sub").textContent = "Середньодобові кроки за місяць, " + stepsPts[0].month + "–" + stepsPts[stepsPts.length-1].month + ".";
+    document.getElementById("sleep-sub").textContent = "Середня тривалість сну за ніч, за місяць, " + sleepPts[0].month + "–" + sleepPts[sleepPts.length-1].month + ".";
+
+    var xMinAll = "2025-02-15", xMaxAll = new Date(new Date(refDate).getTime() + 6*86400000).toISOString().slice(0,10);
+
+    renderTimeChart("chart-bench", {
+      xMin: benchFirst.d < "2025-05-20" ? benchFirst.d : "2025-05-20", xMax: xMaxAll,
+      yDomain:[0,60], yTicks:[0,15,30,45,60],
+      xTicks: monthTicks("2025-05-20", xMaxAll),
+      gap: DATA.meta.bench_gap, gapLabel: (DATA.meta.bench_gap||{}).label,
+      series:[{name:"Bench Press", color:cv("--c-bench"), segments:benchSegments}]
+    });
+
+    renderTimeChart("chart-lat", {
+      xMin:"2025-05-10", xMax:xMaxAll,
+      yDomain:[0,50], yTicks:[0,25,50],
+      xTicks: quarterTicks("2025-05-10", xMaxAll),
+      gap: DATA.meta.lat_gap, gapLabel: (DATA.meta.lat_gap||{}).label,
+      series:[{name:"Lat Pulldown", color:cv("--c-lat"), segments:latSegments}]
+    });
+
+    renderTimeChart("chart-weight", {
+      xMin:"2025-02-15", xMax:xMaxAll,
+      yDomain:[85,95], yTicks:[85,90,95],
+      xTicks: quarterTicks("2025-02-15", xMaxAll),
+      gap:null,
+      series:[{name:"Вага тіла", color:cv("--c-bench"), segments:weightSegments}]
+    });
+
+    // ---------- body composition stat tiles (latest value with each field, if any) ----------
+    (function(){
+      var target = document.getElementById("stat-row-body");
+      var sorted = weight.slice().sort(function(a,b){ return parseDate(a.d)-parseDate(b.d); });
+      function lastWith(field){
+        for (var i=sorted.length-1;i>=0;i--){ if (sorted[i][field] !== undefined) return sorted[i]; }
+        return null;
+      }
+      var lean = lastWith("lean_mass_kg");
+      var fat = lastWith("body_fat_pct");
+      var bmi = lastWith("bmi");
+      if (!lean && !fat && !bmi){ target.innerHTML = ""; return; }
+      var tiles = [];
+      if (lean) tiles.push('<div class="stat"><div class="label">М’язова маса, останнє</div><div class="value">'+lean.lean_mass_kg+'<span class="unit"> кг</span></div><div class="delta">'+fmtDateUk(lean.d)+', '+(lean.source==="manual"?"Garmin":"Apple Health")+'</div></div>');
+      if (fat) tiles.push('<div class="stat"><div class="label">Жир, останнє</div><div class="value">'+fat.body_fat_pct+'<span class="unit"> %</span></div><div class="delta">'+fmtDateUk(fat.d)+', '+(fat.source==="manual"?"Garmin":"Apple Health")+'</div></div>');
+      if (bmi) tiles.push('<div class="stat"><div class="label">ІМТ, останнє</div><div class="value">'+bmi.bmi+'</div><div class="delta">'+fmtDateUk(bmi.d)+', '+(bmi.source==="manual"?"Garmin":"Apple Health")+'</div></div>');
+      target.innerHTML = tiles.join("");
+    })();
+
+    renderTimeChart("chart-steps", {
+      xMin:"2025-02-15", xMax:xMaxAll,
+      yDomain:[0,10000], yTicks:[0,5000,10000],
+      yUnit:"", yFormat: function(t){ return fmtNum(t); },
+      pointFormat: function(p){ return fmtNum(p.v) + (p.partial ? " ("+p.count+" д.)" : ""); },
+      xTicks: quarterTicks("2025-02-15", xMaxAll),
+      gap: null,
+      series:[{name:"Кроки", color:cv("--c-walkrun"), segments:[stepsPts]}]
+    });
+
+    renderTimeChart("chart-sleep", {
+      xMin:"2025-02-15", xMax:xMaxAll,
+      yDomain:[5,9], yTicks:[5,6,7,8,9],
+      yUnit:" год",
+      pointFormat: function(p){ return p.v.toFixed(2) + " год" + (p.partial ? " ("+p.count+" н.)" : ""); },
+      xTicks: quarterTicks("2025-02-15", xMaxAll),
+      gap: null,
+      series:[{name:"Сон", color:cv("--c-bike"), segments:[sleepPts]}]
+    });
+
+    renderTimeChart("chart-legs", {
+      xMin:"2025-07-01", xMax:"2026-04-22",
+      yDomain:[0,120], yTicks:[0,60,120],
+      xTicks: quarterTicks("2025-07-01","2026-04-22"),
+      gap:null,
+      series:[
+        {name:"Leg Press", color:cv("--c-legpress"), segments:[legpress]},
+        {name:"Hack Squat", color:cv("--c-hack"), segments:[hacksquat]}
+      ]
+    });
+
+    // ---------- stacked bar: monthly frequency ----------
+    (function(){
+      var MONTHLY = DATA.training_monthly.slice().sort(function(a,b){ return a.month<b.month?-1:1; });
+      var curMonth = (DATA.meta.last_processed_date || DATA.meta.updated_at.slice(0,10)).slice(0,7);
+      MONTHLY.forEach(function(m){
+        m.partial = (m.month === curMonth);
+        m.yearMark = (m.month.slice(5,7) === "01");
+      });
+      document.getElementById("freq-sub").textContent = "Усі зафіксовані активності, " + MONTHLY[0].month + "–" + MONTHLY[MONTHLY.length-1].month + ". " + (MONTHLY[MONTHLY.length-1].partial ? monthLabel(curMonth,true) + " — не повний місяць." : "");
+
+      var svg = document.getElementById("chart-freq");
+      var vb = svg.getAttribute("viewBox").split(" ").map(Number);
+      var W = vb[2], H = vb[3];
+      var margin = {top:20, right:20, bottom:34, left:34};
+      var innerW = W - margin.left - margin.right;
+      var innerH = H - margin.top - margin.bottom;
+      var n = MONTHLY.length;
+      var gap = 6;
+      var bw = (innerW - gap*(n-1)) / n;
+      var maxTotal = Math.max.apply(null, MONTHLY.map(function(m){return m.strength+m.walk_run+m.bike+m.other;}));
+      var yMax = Math.ceil(maxTotal/5)*5 || 5;
+      function ys(v){ return margin.top + innerH - (v/yMax)*innerH; }
+
+      [0, yMax/2, yMax].forEach(function(t){
+        svg.appendChild(el("line", {x1:margin.left, x2:margin.left+innerW, y1:ys(t), y2:ys(t), class:"gridline"}));
+        var lbl = el("text", {x:margin.left-8, y:ys(t)+3, class:"axis-label", "text-anchor":"end"});
+        lbl.textContent = Math.round(t);
+        svg.appendChild(lbl);
+      });
+      svg.appendChild(el("line", {x1:margin.left, x2:margin.left+innerW, y1:margin.top+innerH, y2:margin.top+innerH, class:"axis-line"}));
+
+      var cats = [
+        {key:"strength", name:"Силові", color:cv("--c-strength")},
+        {key:"walk_run", name:"Ходьба/біг", color:cv("--c-walkrun")},
+        {key:"bike", name:"Велосипед", color:cv("--c-bike")},
+        {key:"other", name:"Інше", color:cv("--c-other")}
+      ];
+
+      MONTHLY.forEach(function(m, i){
+        var x = margin.left + i*(bw+gap);
+        var yCursor = margin.top + innerH;
+        var total = m.strength+m.walk_run+m.bike+m.other;
+        cats.forEach(function(c){
+          var v = m[c.key];
+          if (v > 0){
+            var segH = (v/yMax)*innerH;
+            var rect = el("rect", {x:x, y:yCursor-segH, width:bw, height:Math.max(segH-2,0), rx:2, fill:c.color, class:"bar-seg"});
+            rect.addEventListener("mouseenter", function(evt){
+              showTip(evt, monthLabel(m.month,true) + " — " + c.name, v + (v===1?" тренування":" тренувань"));
+            });
+            rect.addEventListener("mousemove", moveTip);
+            rect.addEventListener("mouseleave", hideTip);
+            svg.appendChild(rect);
+            yCursor -= segH;
+          }
+        });
+        var lbl = el("text", {x:x+bw/2, y:margin.top+innerH+18, class:"axis-label", "text-anchor":"middle", style:"font-size:9px;"});
+        lbl.textContent = (m.yearMark ? monthLabel(m.month,true) : monthLabel(m.month,false)) + (m.partial ? "*" : "");
+        svg.appendChild(lbl);
+        var totLbl = el("text", {x:x+bw/2, y:ys(total)-6, class:"direct-label", "text-anchor":"middle", fill:cv("--ink-mute"), style:"font-size:9px;"});
+        totLbl.textContent = total;
+        svg.appendChild(totLbl);
+      });
+    })();
+
+    // ---------- data tables ----------
+    (function(){
+      var target = document.getElementById("tables-target");
+      function table(caption, headers, rows){
+        return '<table class="data"><caption>'+caption+'</caption><thead><tr>' +
+          headers.map(function(h){return '<th>'+h+'</th>';}).join('') + '</tr></thead><tbody>' +
+          rows.map(function(r){ return '<tr>' + r.map(function(c,i){ return '<td'+(i>0?' class="num"':'')+'>'+c+'</td>'; }).join('') + '</tr>'; }).join('') +
+          '</tbody></table>';
+      }
+      var out = "";
+      out += table("Bench Press", ["Дата","Вага","Повтори"], bench.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.reps];}));
+      out += table("Lat Pulldown", ["Дата","Вага","Повтори"], lat.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.reps];}));
+      out += table("Leg Press", ["Дата","Вага","Повтори"], legpress.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.reps];}));
+      out += table("Hack Squat", ["Дата","Вага","Повтори"], hacksquat.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.reps];}));
+      out += table("Вага тіла", ["Дата","Вага","Джерело"], weight.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.source==="manual"?"Garmin, вручну":"Xiaomi, терези"];}));
+      out += table("Кроки за місяцями", ["Місяць","Середнє за день"], stepsPts.map(function(p){return [p.l+(p.partial?" (частково)":""), fmtNum(p.v)];}));
+      out += table("Сон за місяцями", ["Місяць","Середнє за ніч"], sleepPts.map(function(p){return [p.l+(p.partial?" (частково)":""), p.v.toFixed(2)+" год"];}));
+      out += table("Частота тренувань за місяцями", ["Місяць","Силові","Ходьба/біг","Велосипед","Інше","Разом"], DATA.training_monthly.slice().sort(function(a,b){return a.month<b.month?-1:1;}).map(function(m){
+        return [monthLabel(m.month,true), m.strength, m.walk_run, m.bike, m.other, m.strength+m.walk_run+m.bike+m.other];
+      }));
+      if (DATA.bench_excluded_variants && DATA.bench_excluded_variants.length){
+        out += table("Виключено з графіка Bench Press (гантелі, не штанга)", ["Дата","Вага","Повтори","Вправа"], DATA.bench_excluded_variants.map(function(p){return [fmtDateUk(p.d), p.v+" кг", p.reps, p.exercise];}));
+      }
+      target.innerHTML = out;
+    })();
+  }
+})();
+</script>
+</body>
+</html>

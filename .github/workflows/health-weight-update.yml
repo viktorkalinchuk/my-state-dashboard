@@ -1,0 +1,47 @@
+name: Apple Health weight update
+
+# Triggered remotely by an iPhone Shortcuts automation (see README.md —
+# "Apple Health" section). GitHub Actions has no way to read Apple Health
+# itself — Apple doesn't provide a cloud API for HealthKit data — so the
+# phone sends today's reading here instead of GitHub going to fetch it.
+on:
+  repository_dispatch:
+    types: [health-weight-update]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record weight point
+        env:
+          WEIGHT_DATE: ${{ github.event.client_payload.date }}
+          WEIGHT_KG: ${{ github.event.client_payload.weight_kg }}
+          LEAN_MASS_KG: ${{ github.event.client_payload.lean_mass_kg }}
+          BODY_FAT_PCT: ${{ github.event.client_payload.body_fat_pct }}
+          BMI: ${{ github.event.client_payload.bmi }}
+        run: python3 scripts/update_weight.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "health-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- data/dashboard-data.json; then
+            echo "No changes."
+            exit 0
+          fi
+          git add data/dashboard-data.json
+          git commit -m "chore: weight update from Apple Health (Shortcuts)"
+          git push
+
+      - name: Trigger Vercel redeploy
+        if: ${{ secrets.VERCEL_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"

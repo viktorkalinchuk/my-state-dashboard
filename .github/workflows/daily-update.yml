@@ -1,0 +1,48 @@
+name: Daily Garmin data update
+
+on:
+  schedule:
+    # 05:00 UTC daily — after the previous day's sleep session has synced
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore Garmin session
+        run: |
+          mkdir -p "$HOME/.garminconnect"
+          echo "${{ secrets.GARMIN_SESSION_B64 }}" | base64 -d > /tmp/session.tar.gz
+          tar -xzf /tmp/session.tar.gz -C "$HOME"
+
+      - name: Fetch latest data
+        run: python3 scripts/fetch_garmin.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "garmin-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- data/dashboard-data.json; then
+            echo "No changes."
+            exit 0
+          fi
+          git add data/dashboard-data.json
+          git commit -m "chore: daily Garmin data sync"
+          git push
+
+      - name: Trigger Vercel redeploy
+        if: ${{ secrets.VERCEL_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
