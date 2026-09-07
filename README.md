@@ -9,14 +9,32 @@ Actions-автоматизації (Vercel сам крону не має).
 ## Структура
 
 ```
-index.html                        — сама сторінка (читає data/dashboard-data.json)
+index.html                        — сама сторінка (читає data/dashboard-data.json, data/workout-log.json)
 data/dashboard-data.json          — усі дані графіків
+data/workout-log.json             — повний лог тренувань: кожна сесія, кожна вправа, кожен підхід
+data/recovery.json                — щоденний знімок відновлення (кроки, сон, HRV, Body Battery, стрес,
+                                     training readiness — усе, що вдалось витягти з акаунта)
 scripts/fetch_garmin.py           — щоденний скрипт оновлення (запускає GitHub Actions)
 scripts/generate_garmin_session.py— одноразовий локальний логін у Garmin
 scripts/update_weight.py          — приймає дані ваги від Shortcuts-автоматизації
 .github/workflows/daily-update.yml— cron-завдання (Garmin, щодня о 05:00 UTC)
 .github/workflows/health-weight-update.yml — приймає виклик від Shortcuts (Apple Health)
 ```
+
+### Журнал тренувань і дані для наступного плану
+
+`fetch_garmin.py` щодня само дописує нові сесії в `data/workout-log.json` (усі
+вправи й підходи, а не лише 4 основні графіки) і новий день у
+`data/recovery.json` (кроки, сон, ЧСС спокою, HRV, Body Battery, стрес,
+training readiness — best-effort: якщо якийсь показник не приходить із
+Garmin для цього акаунта/пристрою, поле просто пропускається, скрипт не
+падає). Обидва файли існують саме для того, щоб дані для наступного
+тренування завжди були свіжими без ручного запиту.
+
+Сама генерація плану на наступне тренування лишається ручним кроком:
+попроси в чаті (наприклад, «склади тренування на сьогодні на основі
+попередніх») — це навмисно не автоматизовано GitHub Actions, щоб план
+завжди проходив через живий перегляд, а не публікувався сам.
 
 ## Встановлення (один раз)
 

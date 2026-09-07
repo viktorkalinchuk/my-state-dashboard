@@ -35,20 +35,14 @@ jobs:
         run: |
           git config user.name "garmin-sync-bot"
           git config user.email "actions@users.noreply.github.com"
-          if git diff --quiet -- data/dashboard-data.json; then
+          if git diff --quiet -- data/dashboard-data.json data/workout-log.json data/recovery.json; then
             echo "No changes."
             exit 0
           fi
-          git add data/dashboard-data.json
+          git add data/dashboard-data.json data/workout-log.json data/recovery.json
           git commit -m "chore: daily Garmin data sync"
           git push
 
       - name: Trigger Vercel redeploy
-        env:
-          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
-        run: |
-          if [ -n "$HOOK_URL" ]; then
-            curl -fsS -X POST "$HOOK_URL"
-          else
-            echo "No VERCEL_DEPLOY_HOOK_URL secret set, skipping redeploy trigger."
-          fi
+        if: ${{ secrets.VERCEL_DEPLOY_HOOK_URL != '' }}
+        run: curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"

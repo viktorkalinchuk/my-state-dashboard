@@ -115,6 +115,22 @@
   footer.note{color:var(--ink-mute);font-size:.8rem;margin-top:1.6rem;line-height:1.6;}
   .load-state{color:var(--ink-dim);font-size:.9rem;padding:2rem 0;text-align:center;}
 
+  .log-list{display:flex;flex-direction:column;gap:.5rem;max-height:520px;overflow-y:auto;padding-right:.3rem;}
+  details.log-entry{border:1px solid var(--border);border-radius:10px;background:var(--surface-2);}
+  details.log-entry summary{cursor:pointer;list-style:none;padding:.65rem .9rem;display:flex;align-items:baseline;gap:.7rem;font-size:.85rem;}
+  details.log-entry summary::-webkit-details-marker{display:none;}
+  details.log-entry summary::before{content:"▸";color:var(--ink-mute);font-size:.7rem;}
+  details.log-entry[open] summary::before{content:"▾";}
+  details.log-entry .log-date{font-family:"IBM Plex Mono",monospace;color:var(--ink-dim);flex:none;}
+  details.log-entry .log-name{color:var(--ink);font-weight:500;}
+  details.log-entry .log-count{margin-left:auto;color:var(--ink-mute);font-size:.76rem;flex:none;}
+  .log-body{padding:0 .9rem .8rem 2rem;}
+  .log-ex{margin-bottom:.5rem;}
+  .log-ex .ex-name{font-size:.82rem;color:var(--ink);margin-bottom:.15rem;}
+  .log-ex .ex-sets{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink-dim);}
+  .log-ex .ex-sets .set{white-space:nowrap;}
+  .log-ex .ex-name.unclear{color:var(--ink-mute);font-style:italic;}
+
   @media (max-width:760px){
     .stat-row{grid-template-columns:1fr 1fr;}
     .row-2{grid-template-columns:1fr;}
@@ -197,6 +213,12 @@
     </section>
   </div>
   <p class="ex-note" style="margin-top:-.6rem;color:var(--ink-mute);font-size:.78rem;">Обидва графіки &mdash; напряму з Garmin (годинник носиться цілодобово), а не з Apple Health: Apple Health дублює кроки, коли пише і телефон, і годинник, а сон там відсутній із листопада 2024 по серпень 2026. Обліковий запис Garmin починається 25 березня 2025.</p>
+
+  <section class="card">
+    <h2>Журнал тренувань</h2>
+    <div class="card-sub" id="log-sub">Кожна силова сесія з Garmin — вправи й підходи (вага × повтори).</div>
+    <div id="workout-log"></div>
+  </section>
 
   <section class="card">
     <h2>Дані, на яких побудовані ці графіки</h2>
@@ -406,13 +428,47 @@
     return d.getUTCDate() + " " + MONTH_NAMES[d.getUTCMonth()].toLowerCase();
   }
 
-  fetch("data/dashboard-data.json", {cache:"no-store"}).then(function(r){ return r.json(); }).then(function(DATA){
-    render(DATA);
+  Promise.all([
+    fetch("data/dashboard-data.json", {cache:"no-store"}).then(function(r){ return r.json(); }),
+    fetch("data/workout-log.json", {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : []; }).catch(function(){ return []; })
+  ]).then(function(results){
+    render(results[0], results[1]);
   }).catch(function(err){
-    document.querySelector(".wrap").insertAdjacentHTML("afterbegin", '<div class="load-state">Не вдалось завантажити data/dashboard-data.json: ' + err + '</div>');
+    document.querySelector(".wrap").insertAdjacentHTML("afterbegin", '<div class="load-state">Не вдалось завантажити дані: ' + err + '</div>');
   });
 
-  function render(DATA){
+  function renderWorkoutLog(sessions){
+    var target = document.getElementById("workout-log");
+    var sub = document.getElementById("log-sub");
+    if (!sessions || !sessions.length){
+      target.innerHTML = '<div class="empty-state">Журнал поки порожній.</div>';
+      return;
+    }
+    var sorted = sessions.slice().sort(function(a,b){ return parseDate(b.date) - parseDate(a.date); });
+    sub.textContent = "Кожна силова сесія з Garmin — вправи й підходи (вага × повтори), " + sorted[sorted.length-1].date.slice(0,7) + "–" + sorted[0].date.slice(0,7) + " (" + sorted.length + " сесій).";
+    var html = '<div class="log-list">';
+    sorted.forEach(function(s, i){
+      var exCount = s.exercises.length;
+      html += '<details class="log-entry"' + (i===0?' open':'') + '>';
+      html += '<summary><span class="log-date">' + fmtDateUk(s.date) + '</span><span class="log-name">' + (s.activityName || "Силове тренування") + '</span><span class="log-count">' + exCount + (exCount===1?' вправа':' вправ') + '</span></summary>';
+      html += '<div class="log-body">';
+      s.exercises.forEach(function(ex){
+        var unclear = ex.name === "Unclear exercise";
+        html += '<div class="log-ex"><div class="ex-name' + (unclear?' unclear':'') + '">' + (unclear ? "Вправа не розпізнана" : ex.name) + '</div><div class="ex-sets">';
+        html += ex.sets.map(function(st){
+          var w = (st.weight === null || st.weight === undefined) ? "—" : (st.weight + " кг");
+          return '<span class="set">' + w + ' × ' + st.reps + '</span>';
+        }).join(' &nbsp;·&nbsp; ');
+        html += '</div></div>';
+      });
+      html += '</div></details>';
+    });
+    html += '</div>';
+    target.innerHTML = html;
+  }
+
+  function render(DATA, WORKOUT_LOG){
+    renderWorkoutLog(WORKOUT_LOG);
     var bench = markPeakLatest(DATA.bench.slice().sort(function(a,b){return parseDate(a.d)-parseDate(b.d);}), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
     var lat = markPeakLatest(DATA.lat.slice().sort(function(a,b){return parseDate(a.d)-parseDate(b.d);}), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
     var legpress = markPeakLatest(DATA.legpress.slice(), function(p){ return p.v + " кг × " + p.reps + (p.peak?" · пік":""); });
