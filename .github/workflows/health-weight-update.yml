@@ -1,5 +1,9 @@
 name: Apple Health weight update
 
+# Triggered remotely by an iPhone Shortcuts automation (see README.md —
+# "Apple Health" section). GitHub Actions has no way to read Apple Health
+# itself — Apple doesn't provide a cloud API for HealthKit data — so the
+# phone sends today's reading here instead of GitHub going to fetch it.
 on:
   repository_dispatch:
     types: [health-weight-update]
@@ -45,5 +49,5 @@ jobs:
           if [ -n "$HOOK_URL" ]; then
             curl -fsS -X POST "$HOOK_URL"
           else
-            echo "No VERCEL_DEPLOY_HOOK_URL secret set, skipping redeploy trigger."
+            echo "No VERCEL_DEPLOY_HOOK_URL secret set — skipping (fine if Vercel is Git-connected)."
           fi
