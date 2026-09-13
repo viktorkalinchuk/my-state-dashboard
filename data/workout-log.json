@@ -12681,5 +12681,173 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-09-08",
+    "activityId": 24279747282,
+    "activityName": "Strength pull & biceps",
+    "exercises": [
+      {
+        "name": "Вправа не розпізнана",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 35.0,
+            "reps": 8
+          },
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 8
+          },
+          {
+            "weight": 15.0,
+            "reps": 14
+          },
+          {
+            "weight": 15.0,
+            "reps": 18
+          },
+          {
+            "weight": 15.0,
+            "reps": 14
+          },
+          {
+            "weight": 10.0,
+            "reps": 10
+          },
+          {
+            "weight": 10.0,
+            "reps": 8
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "activityId": 24317643736,
+    "activityName": "Chest",
+    "exercises": [
+      {
+        "name": "Вправа не розпізнана",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 25.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 9
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 10.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 10.0,
+            "reps": 18
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 10.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
