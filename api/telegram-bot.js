@@ -141,7 +141,14 @@ module.exports = async (req, res) => {
 
   const allowedChatId = process.env.TELEGRAM_CHAT_ID;
   if (allowedChatId && String(chatId) !== String(allowedChatId)) {
-    // Not Viktor — ignore silently, don't leak that the bot exists/works.
+    // TEMPORARY DIAGNOSTIC (Sep 17): log the mismatch so we can see the
+    // actual incoming chat id vs. the configured one in Vercel logs.
+    // Remove this console.log once chat_id matching is confirmed working.
+    console.log(
+      `chat_id mismatch: incoming=${chatId} (type ${typeof chatId}), configured TELEGRAM_CHAT_ID=${JSON.stringify(
+        allowedChatId
+      )}`
+    );
     res.status(200).send('ok');
     return;
   }
