@@ -2,5 +2,10 @@
   "framework": null,
   "buildCommand": null,
   "installCommand": null,
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "functions": {
+    "api/telegram-bot.js": {
+      "maxDuration": 30
+    }
+  }
 }
