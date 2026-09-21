@@ -154,6 +154,30 @@ def best_set_for_category(sets, wanted_category, name_filter=None):
     return best
 
 
+def humanize_exercise_name(s):
+    """Garmin doesn't always return a free-text 'name' for a set — for
+    exercises picked from its standard list (as opposed to typed in
+    manually), it only gives 'category' (and sometimes 'subCategory'),
+    e.g. category="LAT_PULLDOWN". best_set_for_category() above already
+    relies on 'category' successfully for the bench/lat/legpress/hacksquat
+    charts, so it's reliably present — this just stops the workout log
+    from throwing that information away and falling back to "Вправа не
+    розпізнана" for every set."""
+    name = s.get("name")
+    if name:
+        return name
+    parts = []
+    category = s.get("category")
+    subcategory = s.get("subCategory") or s.get("subcategory")
+    if category:
+        parts.append(str(category).replace("_", " ").title())
+    if subcategory and subcategory != category:
+        parts.append(str(subcategory).replace("_", " ").title())
+    if parts:
+        return " ".join(parts)
+    return "Вправа не розпізнана"
+
+
 def build_workout_log_entry(activity, sets):
     """Turns one strength_training activity + its exercise sets into the
     {date, activityId, activityName, exercises:[{name, sets:[{weight,reps}]}]}
@@ -162,7 +186,7 @@ def build_workout_log_entry(activity, sets):
     exercises = []
     by_name = {}
     for s in sets:
-        name = s.get("name") or "Вправа не розпізнана"
+        name = humanize_exercise_name(s)
         weight_g = s.get("weight")
         reps = s.get("repetitionCount") or s.get("reps")
         if weight_g is None or not reps:
