@@ -1,8 +1,5 @@
 export const config = {
-  // Basic Auth applies to everything EXCEPT the Telegram bot webhook —
-  // Telegram can't do an interactive Basic Auth prompt, so that one route
-  // is protected instead by its own secret-token check (see api/telegram-bot.js).
-  matcher: ["/((?!api/telegram-bot).*)"],
+  matcher: "/:path*",
 };
 
 function decodeBase64(str) {
