@@ -12688,7 +12688,7 @@
     "activityName": "Strength pull & biceps",
     "exercises": [
       {
-        "name": "Вправа не розпізнана",
+        "name": "Lat Pulldown",
         "sets": [
           {
             "weight": 35.0,
@@ -12705,7 +12705,12 @@
           {
             "weight": 35.0,
             "reps": 8
-          },
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
           {
             "weight": 30.0,
             "reps": 12
@@ -12717,7 +12722,12 @@
           {
             "weight": 40.0,
             "reps": 10
-          },
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
           {
             "weight": 9.0,
             "reps": 10
@@ -12729,7 +12739,12 @@
           {
             "weight": 9.0,
             "reps": 8
-          },
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
           {
             "weight": 15.0,
             "reps": 14
@@ -12741,7 +12756,12 @@
           {
             "weight": 15.0,
             "reps": 14
-          },
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
           {
             "weight": 10.0,
             "reps": 10
@@ -12749,7 +12769,12 @@
           {
             "weight": 10.0,
             "reps": 8
-          },
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
           {
             "weight": 20.0,
             "reps": 20
@@ -12768,7 +12793,7 @@
     "activityName": "Chest",
     "exercises": [
       {
-        "name": "Вправа не розпізнана",
+        "name": "Bench Press",
         "sets": [
           {
             "weight": 20.0,
@@ -12787,18 +12812,6 @@
             "reps": 10
           },
           {
-            "weight": 20.0,
-            "reps": 14
-          },
-          {
-            "weight": 20.0,
-            "reps": 12
-          },
-          {
-            "weight": 25.0,
-            "reps": 12
-          },
-          {
             "weight": 12.0,
             "reps": 9
           },
@@ -12809,7 +12822,29 @@
           {
             "weight": 12.0,
             "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 14
           },
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 25.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Seated Dumbbell Overhead Triceps Extension",
+        "sets": [
           {
             "weight": 12.0,
             "reps": 12
@@ -12821,26 +12856,36 @@
           {
             "weight": 12.0,
             "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
           },
           {
             "weight": 20.0,
             "reps": 20
           },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      },
+      {
+        "name": "Weighted Leg Extensions",
+        "sets": [
           {
             "weight": 10.0,
-            "reps": 20
-          },
-          {
-            "weight": 20.0,
             "reps": 20
           },
           {
             "weight": 10.0,
             "reps": 18
-          },
-          {
-            "weight": 20.0,
-            "reps": 20
           },
           {
             "weight": 10.0,
@@ -12856,7 +12901,7 @@
     "activityName": "Strength pull",
     "exercises": [
       {
-        "name": "Вправа не розпізнана",
+        "name": "Lat Pulldown",
         "sets": [
           {
             "weight": 30.0,
@@ -12869,7 +12914,12 @@
           {
             "weight": 40.0,
             "reps": 10
-          },
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
           {
             "weight": 30.0,
             "reps": 12
@@ -12881,7 +12931,12 @@
           {
             "weight": 40.0,
             "reps": 10
-          },
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
           {
             "weight": 30.0,
             "reps": 14
@@ -12893,7 +12948,12 @@
           {
             "weight": 40.0,
             "reps": 9
-          },
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
           {
             "weight": 10.0,
             "reps": 12
@@ -12901,7 +12961,12 @@
           {
             "weight": 10.0,
             "reps": 10
-          },
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
           {
             "weight": 8.0,
             "reps": 8
@@ -12909,11 +12974,21 @@
           {
             "weight": 9.0,
             "reps": 8
-          },
+          }
+        ]
+      },
+      {
+        "name": "Sit Up",
+        "sets": [
           {
             "weight": 0.0,
             "reps": 15
-          },
+          }
+        ]
+      },
+      {
+        "name": "Leg Press",
+        "sets": [
           {
             "weight": 10.0,
             "reps": 15

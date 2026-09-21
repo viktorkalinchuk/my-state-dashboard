@@ -122,13 +122,30 @@ def classify_activity_type(type_key):
     return ACTIVITY_CATEGORY_MAP.get(type_key, "other")
 
 
+def exercise_info(s):
+    """Garmin nests each set's exercise identification under a list,
+    s['exercises'] == [{'category', 'name', 'probability'}], rather than
+    putting 'category'/'name' directly on the set dict (REST sets have an
+    empty 'exercises' list — that's how they're told apart from ACTIVE
+    sets here). Returns (name, category), either of which may be None."""
+    items = s.get("exercises") or []
+    ex = items[0] if items else {}
+    return ex.get("name"), ex.get("category")
+
+
 def is_bench_press(category, name):
-    if category != "BENCH_PRESS":
+    # Real Garmin responses put the specific lift name in 'name' and a
+    # broader movement family in 'category' — which of the two actually
+    # holds "BENCH_PRESS" varies (seen directly: LAT_PULLDOWN came back
+    # as category=PULL_UP/name=LAT_PULLDOWN, i.e. the specific id was in
+    # 'name'; but a plain/no-variant lift can come back with only
+    # 'category' set and name=None, e.g. category=SIT_UP/name=None) — so
+    # check both instead of assuming which field it lands in.
+    if "BENCH_PRESS" not in (category, name):
         return False
-    if name:
-        upper = name.upper()
-        if any(skip in upper for skip in BENCH_SKIP_NAMES):
-            return False
+    label = (name or category or "").upper()
+    if any(skip in label for skip in BENCH_SKIP_NAMES):
+        return False
     return True
 
 
@@ -137,12 +154,11 @@ def best_set_for_category(sets, wanted_category, name_filter=None):
     Returns (weight_kg, reps) for the heaviest matching set, or None."""
     best = None
     for s in sets:
-        category = s.get("category")
-        name = s.get("name")
+        name, category = exercise_info(s)
         if name_filter is not None:
             if not name_filter(category, name):
                 continue
-        elif category != wanted_category:
+        elif wanted_category not in (name, category):
             continue
         weight_g = s.get("weight")
         reps = s.get("repetitionCount") or s.get("reps")
@@ -155,27 +171,16 @@ def best_set_for_category(sets, wanted_category, name_filter=None):
 
 
 def humanize_exercise_name(s):
-    """Garmin doesn't always return a free-text 'name' for a set — for
-    exercises picked from its standard list (as opposed to typed in
-    manually), it only gives 'category' (and sometimes 'subCategory'),
-    e.g. category="LAT_PULLDOWN". best_set_for_category() above already
-    relies on 'category' successfully for the bench/lat/legpress/hacksquat
-    charts, so it's reliably present — this just stops the workout log
-    from throwing that information away and falling back to "Вправа не
-    розпізнана" for every set."""
-    name = s.get("name")
-    if name:
-        return name
-    parts = []
-    category = s.get("category")
-    subcategory = s.get("subCategory") or s.get("subcategory")
-    if category:
-        parts.append(str(category).replace("_", " ").title())
-    if subcategory and subcategory != category:
-        parts.append(str(subcategory).replace("_", " ").title())
-    if parts:
-        return " ".join(parts)
-    return "Вправа не розпізнана"
+    """Turns a set's (name, category) — see exercise_info() — into a
+    display name for the workout log. 'name' from Garmin comes back
+    SCREAMING_SNAKE_CASE (e.g. "LAT_PULLDOWN"), so title-case it whichever
+    of the two we end up using; category is the fallback for sets where
+    Garmin didn't recognize a specific name (it still saw the category)."""
+    name, category = exercise_info(s)
+    raw = name or category
+    if not raw:
+        return "Вправа не розпізнана"
+    return str(raw).replace("_", " ").title()
 
 
 def build_workout_log_entry(activity, sets):
@@ -356,13 +361,14 @@ def fetch_day(garmin, d, data, workout_log, known_activity_ids):
             else:
                 # record any bench-family set we skipped, for visibility
                 for s in sets:
-                    if s.get("category") == "BENCH_PRESS" and not is_bench_press(s.get("category"), s.get("name")):
+                    name, category = exercise_info(s)
+                    if "BENCH_PRESS" in (category, name) and not is_bench_press(category, name):
                         w = s.get("weight")
                         r = s.get("repetitionCount") or s.get("reps")
                         if w and r:
                             data.setdefault("bench_excluded_variants", []).append({
                                 "d": date_str, "v": round(w / 1000.0), "reps": str(r),
-                                "exercise": s.get("name") or "BENCH_PRESS (variant)",
+                                "exercise": name or "BENCH_PRESS (variant)",
                                 "note": "не штанга — автоматично виключено скриптом"
                             })
                         break
