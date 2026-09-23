@@ -13004,5 +13004,127 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-09-22",
+    "activityId": 24452120236,
+    "activityName": "Strength chest A1",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Bench Press",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 25.0,
+            "reps": 13
+          },
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 30.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Single Dumbbell Seated Overhead Triceps Extension",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Sit Up",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 20
+          },
+          {
+            "weight": 0.0,
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
