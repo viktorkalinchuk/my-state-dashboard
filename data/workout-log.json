@@ -13126,5 +13126,106 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-09-25",
+    "activityId": 24489916417,
+    "activityName": "Strength B1",
+    "exercises": [
+      {
+        "name": "Lat Pulldown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 45.0,
+            "reps": 11
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 45.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
+          {
+            "weight": 15.0,
+            "reps": 14
+          },
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 20.0,
+            "reps": 14
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 10
+          },
+          {
+            "weight": 10.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Weighted Leg Extensions",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 20
+          },
+          {
+            "weight": 10.0,
+            "reps": 20
+          },
+          {
+            "weight": 15.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
