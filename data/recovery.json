@@ -241,5 +241,17 @@
   },
   {
     "d": "2026-09-27"
+  },
+  {
+    "d": "2026-09-28",
+    "steps": 4591,
+    "sleep_hours": 7.5,
+    "sleep_score": 82,
+    "resting_hr": 56.0,
+    "body_battery_high": 79,
+    "body_battery_low": 18,
+    "stress_avg": 31,
+    "hrv_ms": 47,
+    "hrv_status": "BALANCED"
   }
 ]
