@@ -13227,5 +13227,111 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-09-29",
+    "activityId": 24537131253,
+    "activityName": "Strength A2",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 42.5,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Bench Press",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Overhead Dumbbell Triceps Extension",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 14.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Sit Up",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 15
+          },
+          {
+            "weight": 0.0,
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
