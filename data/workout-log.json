@@ -13333,5 +13333,119 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-10-06",
+    "activityId": 24622556116,
+    "activityName": "Strength pull (B2)",
+    "exercises": [
+      {
+        "name": "Lat Pulldown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 25.0,
+            "reps": 15
+          },
+          {
+            "weight": 25.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
+          {
+            "weight": 9.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      },
+      {
+        "name": "Sit Up",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 15
+          },
+          {
+            "weight": 0.0,
+            "reps": 15
+          }
+        ]
+      }
+    ]
   }
 ]

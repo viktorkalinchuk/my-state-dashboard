@@ -337,5 +337,17 @@
     "stress_avg": 30,
     "hrv_ms": 47,
     "hrv_status": "BALANCED"
+  },
+  {
+    "d": "2026-10-06",
+    "steps": 5341,
+    "sleep_hours": 7.33,
+    "sleep_score": 90,
+    "resting_hr": 56.0,
+    "body_battery_high": 93,
+    "body_battery_low": 15,
+    "stress_avg": 35,
+    "hrv_ms": 58,
+    "hrv_status": "BALANCED"
   }
 ]
