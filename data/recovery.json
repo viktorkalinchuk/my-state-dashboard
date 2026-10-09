@@ -349,5 +349,29 @@
     "stress_avg": 35,
     "hrv_ms": 58,
     "hrv_status": "BALANCED"
+  },
+  {
+    "d": "2026-10-07",
+    "steps": 3762,
+    "sleep_hours": 7.82,
+    "sleep_score": 85,
+    "resting_hr": 54.0,
+    "body_battery_high": 78,
+    "body_battery_low": 14,
+    "stress_avg": 33,
+    "hrv_ms": 58,
+    "hrv_status": "BALANCED"
+  },
+  {
+    "d": "2026-10-08",
+    "steps": 6206,
+    "sleep_hours": 7.73,
+    "sleep_score": 81,
+    "resting_hr": 57.0,
+    "body_battery_high": 66,
+    "body_battery_low": 10,
+    "stress_avg": 38,
+    "hrv_ms": 47,
+    "hrv_status": "BALANCED"
   }
 ]
