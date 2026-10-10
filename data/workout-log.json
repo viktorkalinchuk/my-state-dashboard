@@ -13447,5 +13447,116 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-10-09",
+    "activityId": 24659401112,
+    "activityName": "Strength push a1",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 12
+          },
+          {
+            "weight": 50.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Bench Press",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
+          {
+            "weight": 40.0,
+            "reps": 12
+          },
+          {
+            "weight": 45.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Rope Pressdown",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 14
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 11
+          }
+        ]
+      },
+      {
+        "name": "Overhead Dumbbell Triceps Extension",
+        "sets": [
+          {
+            "weight": 14.0,
+            "reps": 10
+          },
+          {
+            "weight": 14.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Sit Up",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 20
+          },
+          {
+            "weight": 0.0,
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "Weighted Leg Extensions",
+        "sets": [
+          {
+            "weight": 5.0,
+            "reps": 10
+          },
+          {
+            "weight": 5.0,
+            "reps": 10
+          }
+        ]
+      }
+    ]
   }
 ]
