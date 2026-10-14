@@ -13558,5 +13558,85 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-10-13",
+    "activityId": 24704989168,
+    "activityName": "Strength pull B1",
+    "exercises": [
+      {
+        "name": "Lat Pulldown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 9
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
+          {
+            "weight": 25.0,
+            "reps": 12
+          },
+          {
+            "weight": 30.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
+          {
+            "weight": 9.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 10
+          }
+        ]
+      }
+    ]
   }
 ]
