@@ -13638,5 +13638,94 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-10-16",
+    "activityId": 24741364955,
+    "activityName": "Strength A2 Press",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 12
+          },
+          {
+            "weight": 50.0,
+            "reps": 8
+          },
+          {
+            "weight": 50.0,
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Bench Press",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 14.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
+          {
+            "weight": 40.0,
+            "reps": 12
+          },
+          {
+            "weight": 45.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Overhead Dumbbell Triceps Extension",
+        "sets": [
+          {
+            "weight": 14.0,
+            "reps": 12
+          },
+          {
+            "weight": 14.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Weighted Leg Extensions",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 16
+          },
+          {
+            "weight": 10.0,
+            "reps": 16
+          }
+        ]
+      }
+    ]
   }
 ]
