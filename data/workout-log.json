@@ -13727,5 +13727,98 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-10-20",
+    "activityId": 24786924253,
+    "activityName": "Strength pull B2",
+    "exercises": [
+      {
+        "name": "Lat Pulldown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 11
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 30.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 10
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
+          {
+            "weight": 9.0,
+            "reps": 10
+          },
+          {
+            "weight": 9.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 20.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
