@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated_at": "2026-11-03T12:42:58Z",
-    "last_processed_date": "2026-11-02",
+    "updated_at": "2026-11-04T12:52:46Z",
+    "last_processed_date": "2026-11-03",
     "garmin_account_start": "2025-03-25",
     "surgery_date": "2026-05-14",
     "bench_gap": {
@@ -432,6 +432,11 @@
       "d": "2026-10-20",
       "v": 40,
       "reps": "10"
+    },
+    {
+      "d": "2026-11-03",
+      "v": 40,
+      "reps": "10"
     }
   ],
   "legpress": [
@@ -707,8 +712,8 @@
     },
     {
       "month": "2026-11",
-      "sum": 11622,
-      "count": 2
+      "sum": 17826,
+      "count": 3
     }
   ],
   "sleep_monthly": [
@@ -814,8 +819,8 @@
     },
     {
       "month": "2026-11",
-      "sum": 15.524000000000001,
-      "count": 2
+      "sum": 23.091,
+      "count": 3
     }
   ],
   "training_monthly": [
@@ -961,9 +966,9 @@
     },
     {
       "month": "2026-11",
-      "strength": 0,
+      "strength": 1,
       "walk_run": 0,
-      "bike": 0,
+      "bike": 1,
       "other": 0
     }
   ]

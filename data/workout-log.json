@@ -13925,5 +13925,115 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-11-03",
+    "activityId": 24948000671,
+    "activityName": "Strength B1 pull",
+    "exercises": [
+      {
+        "name": "Lat Pulldown",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "sets": [
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          },
+          {
+            "weight": 40.0,
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Face Pull",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 11
+          }
+        ]
+      },
+      {
+        "name": "Hyperextension",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 12
+          },
+          {
+            "weight": 0.0,
+            "reps": 12
+          },
+          {
+            "weight": 0.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Alternating Dumbbell Biceps Curl",
+        "sets": [
+          {
+            "weight": 12.0,
+            "reps": 12
+          },
+          {
+            "weight": 12.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 10
+          },
+          {
+            "weight": 10.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Weighted Leg Extensions",
+        "sets": [
+          {
+            "weight": 10.0,
+            "reps": 20
+          },
+          {
+            "weight": 10.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
