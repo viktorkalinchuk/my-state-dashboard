@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated_at": "2026-11-05T13:01:05Z",
-    "last_processed_date": "2026-11-04",
+    "updated_at": "2026-11-06T12:49:35Z",
+    "last_processed_date": "2026-11-05",
     "garmin_account_start": "2025-03-25",
     "surgery_date": "2026-05-14",
     "bench_gap": {
@@ -712,8 +712,8 @@
     },
     {
       "month": "2026-11",
-      "sum": 22606,
-      "count": 4
+      "sum": 27454,
+      "count": 5
     }
   ],
   "sleep_monthly": [
@@ -819,8 +819,8 @@
     },
     {
       "month": "2026-11",
-      "sum": 30.424,
-      "count": 4
+      "sum": 38.541,
+      "count": 5
     }
   ],
   "training_monthly": [
