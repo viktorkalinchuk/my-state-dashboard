@@ -14035,5 +14035,115 @@
         ]
       }
     ]
+  },
+  {
+    "date": "2026-11-06",
+    "activityId": 24983421539,
+    "activityName": "Strength chest a2",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 14
+          },
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 50.0,
+            "reps": 6
+          },
+          {
+            "weight": 50.0,
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Bench Press",
+        "sets": [
+          {
+            "weight": 14.0,
+            "reps": 12
+          },
+          {
+            "weight": 14.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Cable Crossover",
+        "sets": [
+          {
+            "weight": 40.0,
+            "reps": 10
+          },
+          {
+            "weight": 45.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Triceps Pressdown",
+        "sets": [
+          {
+            "weight": 30.0,
+            "reps": 14
+          },
+          {
+            "weight": 35.0,
+            "reps": 12
+          },
+          {
+            "weight": 35.0,
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Overhead Dumbbell Triceps Extension",
+        "sets": [
+          {
+            "weight": 14.0,
+            "reps": 12
+          },
+          {
+            "weight": 14.0,
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Hyperextension",
+        "sets": [
+          {
+            "weight": 0.0,
+            "reps": 15
+          },
+          {
+            "weight": 0.0,
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "Weighted Seated Calf Raise",
+        "sets": [
+          {
+            "weight": 20.0,
+            "reps": 20
+          },
+          {
+            "weight": 30.0,
+            "reps": 20
+          }
+        ]
+      }
+    ]
   }
 ]
