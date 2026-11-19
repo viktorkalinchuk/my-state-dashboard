@@ -34,8 +34,7 @@ def main():
     password = getpass.getpass("Garmin password: ")
 
     garmin = Garmin(email=email, password=password, is_cn=False)
-    garmin.login()  # will prompt for an MFA code here if your account uses it
-    garmin.garth.dump(TOKEN_DIR)
+    garmin.login(TOKEN_DIR)  # will prompt for an MFA code here if your account uses it; saves tokens to TOKEN_DIR automatically
     print(f"\nSaved session tokens to {TOKEN_DIR}")
 
     buf = io.BytesIO()
